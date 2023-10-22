@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:meus_gastos/dao/category_dao_impl.dart';
+import 'package:meus_gastos/dao/sqflite_database.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/speding_money.dart';
@@ -64,5 +66,51 @@ void main() {
     expect(speding.amountPaid, 100);
     expect(speding.getBalance(), 150);
     expect(speding.getBalanceMonetary(), 'R\$ 150.00');
+  });
+
+  group('Dados persistentes', () {
+    test('Criar nova categoria', () async {
+      final category =
+          Category(name: 'Gasolina', icon: '/assets/images/gasolina.png');
+
+      final newCategory = await CategoryDAOImpl().addCategory(category);
+      expect(category.name, newCategory.name);
+    });
+
+    test('Obter e atualizar categoria', () async {
+      final categorieList = await CategoryDAOImpl().getAllCategorys();
+
+      expect(categorieList.length, greaterThanOrEqualTo(1));
+
+      final categorie = categorieList[0];
+
+      categorie.name = 'Alcool';
+
+      final Category newCategory =
+          await CategoryDAOImpl().updateCategory(categorie);
+
+      expect(categorie.name, newCategory.name);
+    });
+
+    test('Recuperar categorias', () async {
+      final List<Category> categories =
+          await CategoryDAOImpl().getAllCategorys();
+      expect(categories.length, greaterThanOrEqualTo(categories.length));
+    });
+
+    test('Exclui categoria', () async {
+      final categorieList = await CategoryDAOImpl().getAllCategorys();
+
+      expect(categorieList.length, greaterThanOrEqualTo(categorieList.length));
+
+      final categorie = categorieList[0];
+
+      await CategoryDAOImpl().deleteCategory(categorie);
+
+      final Category? categoryDeleted =
+          await CategoryDAOImpl().getCategoryById(categorie.id);
+
+      expect(categoryDeleted, isNull);
+    });
   });
 }
