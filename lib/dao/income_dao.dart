@@ -1,20 +1,12 @@
-import '../widgets/income.dart';
+import 'package:meus_gastos/dao/base_dao.dart';
+import 'package:meus_gastos/model/financial_income.dart';
 
 /// Abstração para manutenção das entradas de recurso
 /// em um sistema de armazenamento
-abstract class IncomeDAO {
+abstract class IncomeDAO extends BaseDao<FinancialIncome> {
   /// Recupera a lista de entradas informando a data do filtro
-  Future<List<Income>> getIncomeByDate(DateTime de, DateTime ate);
-
-  /// Recupera uma entrada por id
-  Future<Income> getIncomeById(int id);
-
-  /// Cria uma nova entrada de recurso
-  Future<Income> addIncome(Income income);
-
-  /// Atualiza a entrada enviada no db
-  Future<Income> updateIncome(Income income);
-
-  // Exclui a entrada enviada do db
-  Future<void> deleteIcome(Income income);
+  Future<List<FinancialIncome>> getFinancialIncomeByDate(
+    DateTime de,
+    DateTime ate,
+  );
 }

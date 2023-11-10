@@ -1,3 +1,5 @@
+import 'package:brasil_fields/brasil_fields.dart';
+
 import 'balance.dart';
 import 'resource_paid.dart';
 
@@ -44,6 +46,6 @@ class SpedingMoney extends ResourcePaid implements Balance {
   /// seja totalmente paga no formato R$ 0,00
   @override
   String getBalanceMonetary() {
-    return 'R\$ ${(value - amountPaid).toStringAsFixed(2)}';
+    return UtilBrasilFields.obterReal(value - amountPaid);
   }
 }

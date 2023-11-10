@@ -4,6 +4,7 @@ import 'resource_paid.dart';
 /// de valores no Applicativo. Ela estende [ResourcePaid] para criação
 /// dos atributos padrão e formatações de data da entrada e valor monetário.
 class FinancialIncome extends ResourcePaid {
+  int id = 0;
   FinancialIncome({
     required super.category,
     required super.name,

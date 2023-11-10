@@ -1,18 +1,12 @@
-import '../widgets/speding.dart';
+import 'package:meus_gastos/dao/base_dao.dart';
+import 'package:meus_gastos/model/speding_money.dart';
 
-abstract class SpedingDAO {
+/// Interface para implementação e metodos para lidar com valores de saida
+/// da aplicação.
+abstract class SpedingDAO extends BaseDao<SpedingMoney> {
   /// Recupera a lista de saidas realizando um filtro de periodo de/ate
-  Future<List<Speding>> getSpedingByDate(DateTime de, DateTime ate);
-
-  /// Recupera a saída por id
-  Future<Speding> getSpedingById(int id);
-
-  /// Cria uma nova saida de recurso financeiro
-  Future<Speding> addSpeding(Speding speding);
-
-  /// Atualiza o saida no db com os dados do recurso enviado
-  Future<Speding> updateSpeding(Speding speding);
-
-  // Exclui a saida do recurso do db
-  Future<void> deleteSpeding(Speding speding);
+  Future<List<SpedingMoney>> getSpedingMoneyByDate(
+    DateTime de,
+    DateTime ate,
+  );
 }

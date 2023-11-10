@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:intl/intl.dart';
 
 import 'category.dart';
@@ -21,7 +22,7 @@ abstract class ResourcePaid {
 
   /// Retorna o valor do recurso no formato R$ 0,00
   String getValueMonetary() {
-    return 'R\$ ${value.toStringAsFixed(2)}';
+    return UtilBrasilFields.obterReal(value);
   }
 
   /// Retorna a data no formato dd/MM/YY
