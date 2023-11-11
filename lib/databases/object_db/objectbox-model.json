@@ -1,0 +1,133 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:861162380915200976",
+      "lastPropertyId": "3:2396819350577565862",
+      "name": "Category",
+      "properties": [
+        {
+          "id": "1:8382524220615196139",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7251818866468335474",
+          "name": "name",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:8628383768506270010"
+        },
+        {
+          "id": "3:2396819350577565862",
+          "name": "icon",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8118950560246083324",
+      "lastPropertyId": "6:3003170290294033733",
+      "name": "FinancialIncome",
+      "properties": [
+        {
+          "id": "1:6769802294495446717",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6431685945790832814",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6321970583276573097",
+          "name": "value",
+          "type": 8
+        },
+        {
+          "id": "4:57938236244246455",
+          "name": "dateRegister",
+          "type": 10
+        },
+        {
+          "id": "5:5366907371897082188",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "6:3003170290294033733",
+          "name": "categoryRefId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:1070473814994430688",
+          "relationTarget": "Category"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7594537844688304618",
+      "lastPropertyId": "7:7615447201201215313",
+      "name": "SpedingMoney",
+      "properties": [
+        {
+          "id": "1:2279436412977283790",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4273567909821498331",
+          "name": "amountPaid",
+          "type": 8
+        },
+        {
+          "id": "3:3336059092481271411",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:5048618011353296659",
+          "name": "value",
+          "type": 8
+        },
+        {
+          "id": "5:4910969762392873803",
+          "name": "dateRegister",
+          "type": 10
+        },
+        {
+          "id": "6:7541455126940798107",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "7:7615447201201215313",
+          "name": "categoryRefId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:4284874061219550202",
+          "relationTarget": "Category"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:7594537844688304618",
+  "lastIndexId": "3:4284874061219550202",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
