@@ -11,15 +11,15 @@ class CategoryBoxImpl implements CategoryDAO {
   }
 
   @override
-  Future<Category> add(Category item) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<Category> add(Category item) async {
+    int indice = await box.putAsync(item);
+    item.id = indice;
+    return item;
   }
 
   @override
-  Future<void> del(Category item) {
-    // TODO: implement del
-    throw UnimplementedError();
+  Future<void> del(Category item) async {
+    await box.removeAsync(item.id);
   }
 
   @override
@@ -28,26 +28,25 @@ class CategoryBoxImpl implements CategoryDAO {
   }
 
   @override
-  Future<List<Category>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<List<Category>> getAll() async {
+    return await box.getAllAsync();
   }
 
   @override
-  Future<Category> getById(int id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<Category> getById(int id) async {
+    final category = await box.getAsync(id);
+    if (category == null) {
+      throw Exception('A categoria do id $id não existe');
+    }
+    return category;
   }
 
   @override
-  Future<void> init() {
-    // TODO: implement init
-    throw UnimplementedError();
-  }
+  Future<void> init() async {}
 
   @override
-  Future<Category> update(Category item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Category> update(Category item) async {
+    await box.putAsync(item);
+    return item;
   }
 }

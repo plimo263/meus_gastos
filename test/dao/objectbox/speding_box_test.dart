@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meus_gastos/dao/dao_connector.dart';
+import 'package:meus_gastos/dao/objectbox/speding_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/speding_money.dart';
 
@@ -9,28 +11,41 @@ final spedingMoney = SpedingMoney(
     dateRegister: DateTime.now());
 
 void main() {
+  late final SpedingBoxImpl spedingBox;
+
+  setUpAll(() async {
+    final connector = await initConnectors(directory: './objectbox_databases/');
+    spedingBox = connector.speding as SpedingBoxImpl;
+    // Limpando a casa
+    await spedingBox.delAll();
+  });
+
+  tearDownAll(() async {
+    await spedingBox.delAll();
+  });
+
   group('SpedingBoxDao', () {
-    final store = null;
-
-    final box = SpedingBoxDao(store);
-
     test('add', () async {
+      final box = spedingBox;
       final speding = await box.add(spedingMoney);
       expect(speding, isA<SpedingMoney>());
     });
 
     test('getAll', () async {
+      final box = spedingBox;
       final spedingMoneyList = await box.getAll();
       expect(spedingMoneyList, isA<List<SpedingMoney>>());
     });
 
     test('getById', () async {
+      final box = spedingBox;
       final speding = await box.add(spedingMoney);
       final spedingMoneyList = await box.getById(1);
       expect(spedingMoneyList, isA<SpedingMoney>());
     });
 
     test('update', () async {
+      final box = spedingBox;
       SpedingMoney speding = await box.add(spedingMoney);
       speding.name = 'Alimento';
       speding = await box.update(speding);
@@ -40,19 +55,17 @@ void main() {
     });
 
     test('del', () async {
+      final box = spedingBox;
       SpedingMoney speding = await box.add(spedingMoney);
-
       await box.del(speding);
-
       List<SpedingMoney> spedingList = await box.getAll();
       expect(spedingList.isEmpty, isTrue);
     });
 
     test('delAll', () async {
-      SpedingMoney speding = await box.add(spedingMoney);
-
-      await box.delAll(speding);
-
+      final box = spedingBox;
+      await box.add(spedingMoney);
+      await box.delAll();
       List<SpedingMoney> spedingList = await box.getAll();
       expect(spedingList.isEmpty, isTrue);
     });

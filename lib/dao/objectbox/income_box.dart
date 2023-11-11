@@ -11,15 +11,15 @@ class IncomeBoxImpl implements IncomeDAO {
   }
 
   @override
-  Future<FinancialIncome> add(FinancialIncome item) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<FinancialIncome> add(FinancialIncome item) async {
+    int index = await box.putAsync(item);
+    item.id = index;
+    return item;
   }
 
   @override
-  Future<void> del(FinancialIncome item) {
-    // TODO: implement del
-    throw UnimplementedError();
+  Future<void> del(FinancialIncome item) async {
+    await box.removeAsync(item.id);
   }
 
   @override
@@ -28,33 +28,41 @@ class IncomeBoxImpl implements IncomeDAO {
   }
 
   @override
-  Future<List<FinancialIncome>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<List<FinancialIncome>> getAll() async {
+    return await box.getAllAsync();
   }
 
   @override
-  Future<FinancialIncome> getById(int id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<FinancialIncome> getById(int id) async {
+    final income = await box.getAsync(id);
+    if (income == null) {
+      throw Exception('Recurso financeiro com id $id não encontrado');
+    }
+    return income;
   }
 
   @override
   Future<List<FinancialIncome>> getFinancialIncomeByDate(
-      DateTime de, DateTime ate) {
-    // TODO: implement getFinancialIncomeByDate
-    throw UnimplementedError();
+    DateTime de,
+    DateTime ate,
+  ) async {
+    final query = box
+        .query(
+          FinancialIncome_.dateRegister.between(
+            de.millisecondsSinceEpoch,
+            ate.millisecondsSinceEpoch,
+          ),
+        )
+        .build();
+    return await query.findAsync();
   }
 
   @override
-  Future<void> init() {
-    // TODO: implement init
-    throw UnimplementedError();
-  }
+  Future<void> init() async {}
 
   @override
-  Future<FinancialIncome> update(FinancialIncome item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<FinancialIncome> update(FinancialIncome item) async {
+    await box.putAsync(item);
+    return item;
   }
 }

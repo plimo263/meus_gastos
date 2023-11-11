@@ -11,6 +11,12 @@ void main() {
   setUpAll(() async {
     final connector = await initConnectors(directory: './objectbox_databases/');
     categoryBox = connector.category as CategoryBoxImpl;
+    // Limpando a casa
+    await categoryBox.delAll();
+  });
+
+  tearDownAll(() async {
+    await categoryBox.delAll();
   });
 
   group('CategoryBoxImpl', () {

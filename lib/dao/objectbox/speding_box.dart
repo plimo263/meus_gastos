@@ -10,15 +10,15 @@ class SpedingBoxImpl implements SpedingDAO {
     box = store.box<SpedingMoney>();
   }
   @override
-  Future<SpedingMoney> add(SpedingMoney item) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<SpedingMoney> add(SpedingMoney item) async {
+    int index = await box.putAsync(item);
+    item.id = index;
+    return item;
   }
 
   @override
-  Future<void> del(SpedingMoney item) {
-    // TODO: implement del
-    throw UnimplementedError();
+  Future<void> del(SpedingMoney item) async {
+    await box.removeAsync(item.id);
   }
 
   @override
@@ -27,32 +27,41 @@ class SpedingBoxImpl implements SpedingDAO {
   }
 
   @override
-  Future<List<SpedingMoney>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<List<SpedingMoney>> getAll() async {
+    return await box.getAllAsync();
   }
 
   @override
-  Future<SpedingMoney> getById(int id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<SpedingMoney> getById(int id) async {
+    final speding = await box.getAsync(id);
+    if (speding == null) {
+      throw Exception('A saída financeira com id $id não encontrado');
+    }
+    return speding;
   }
 
   @override
-  Future<List<SpedingMoney>> getSpedingMoneyByDate(DateTime de, DateTime ate) {
-    // TODO: implement getSpedingMoneyByDate
-    throw UnimplementedError();
+  Future<List<SpedingMoney>> getSpedingMoneyByDate(
+    DateTime de,
+    DateTime ate,
+  ) async {
+    final query = box
+        .query(
+          SpedingMoney_.dateRegister.between(
+            de.millisecondsSinceEpoch,
+            ate.millisecondsSinceEpoch,
+          ),
+        )
+        .build();
+    return await query.findAsync();
   }
 
   @override
-  Future<void> init() {
-    // TODO: implement init
-    throw UnimplementedError();
-  }
+  Future<void> init() async {}
 
   @override
-  Future<SpedingMoney> update(SpedingMoney item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<SpedingMoney> update(SpedingMoney item) async {
+    await box.putAsync(item);
+    return item;
   }
 }
