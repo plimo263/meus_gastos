@@ -1,10 +1,12 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:intl/intl.dart';
+import 'package:meus_gastos/model/credit_card.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'balance.dart';
+import 'interfaces/balance.dart';
 import 'category.dart';
-import 'resource_paid.dart';
+import 'interfaces/resource_paid.dart';
 
 /// Registra as despesas do aplicativo, as saidas financeiras propriamente dito
 /// Ele estende de [ResourcePaid] para criação dos atributos padrão
@@ -15,27 +17,25 @@ class SpedingMoney implements ResourcePaid, Balance {
   @Id()
   int id = 0;
 
-  @Transient()
-  Category? category;
-
-  final categoryRef = ToOne<Category>();
-
   String name;
   double value;
 
+  @override
   @Property(type: PropertyType.date)
   DateTime dateRegister;
   String description;
 
-  @override
   double _amountPaid = 0.0;
+
+  final category = ToOne<Category>();
+  final user = ToOne<User>();
+  final creditCard = ToOne<CreditCard>();
 
   SpedingMoney({
     required this.name,
     required this.value,
     required this.dateRegister,
     this.description = '',
-    this.category,
   });
 
   /// Atualiza o valor da quantia paga, desde que ela não seja superior

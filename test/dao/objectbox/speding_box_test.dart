@@ -1,26 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meus_gastos/dao/dao_connector.dart';
+import 'package:meus_gastos/dao/objectbox/category_box.dart';
 import 'package:meus_gastos/dao/objectbox/speding_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/speding_money.dart';
 
-final spedingMoney = SpedingMoney(
-    category: Category(name: 'Salário', icon: 898878),
-    name: 'Outubro / 2023',
-    value: 1500.0,
-    dateRegister: DateTime.now());
+Category category = Category(name: 'Salário', icon: 898878);
+SpedingMoney spedingMoney = SpedingMoney(
+    name: 'Outubro / 2023', value: 1500.0, dateRegister: DateTime.now());
 
 void main() {
   late final SpedingBoxImpl spedingBox;
+  late final CategoryBoxImpl categoryBox;
 
   setUpAll(() async {
     final connector = await initConnectors(directory: './objectbox_databases/');
     spedingBox = connector.speding as SpedingBoxImpl;
+    categoryBox = connector.category as CategoryBoxImpl;
     // Limpando a casa
+    await categoryBox.delAll();
     await spedingBox.delAll();
+
+    category = await categoryBox.add(category);
+    spedingMoney.category.target = category;
   });
 
   tearDownAll(() async {
+    await categoryBox.delAll();
     await spedingBox.delAll();
   });
 
@@ -39,7 +45,7 @@ void main() {
 
     test('getById', () async {
       final box = spedingBox;
-      final speding = await box.add(spedingMoney);
+      await box.add(spedingMoney);
       final spedingMoneyList = await box.getById(1);
       expect(spedingMoneyList, isA<SpedingMoney>());
     });

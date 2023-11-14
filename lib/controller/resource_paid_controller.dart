@@ -1,4 +1,4 @@
-import 'package:meus_gastos/model/resource_paid.dart';
+import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 
 /// Interface para interatividades com os recursos de entrada e saida
 abstract class ResourcePaidController {

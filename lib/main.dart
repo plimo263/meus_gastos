@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meus_gastos/themes/theme_light.dart';
+import 'package:meus_gastos/screen/login/login_screen.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Icon(Icons.abc),
+    return const MaterialApp(
+      home: LoginScreen(),
     );
   }
 }

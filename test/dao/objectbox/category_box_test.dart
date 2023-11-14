@@ -34,7 +34,7 @@ void main() {
 
     test('getById', () async {
       final box = categoryBox;
-      final cate = await box.add(category);
+      await box.add(category);
       final categoryList = await box.getById(1);
       expect(categoryList, isA<Category>());
     });
@@ -61,7 +61,7 @@ void main() {
 
     test('delAll', () async {
       final box = categoryBox;
-      Category cate = await box.add(category);
+      await box.add(category);
 
       await box.delAll();
 

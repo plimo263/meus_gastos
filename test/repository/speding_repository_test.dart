@@ -1,31 +1,43 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meus_gastos/dao/dao_connector.dart';
+import 'package:meus_gastos/dao/objectbox/category_box.dart';
 import 'package:meus_gastos/dao/objectbox/speding_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/speding_money.dart';
+import 'package:meus_gastos/repository/category_repository.dart';
 import 'package:meus_gastos/repository/speding_repository.dart';
 
 final dateRegisterAdd = DateTime(2023, 11, 11);
 
-final spedingMoney = SpedingMoney(
-  category: Category(name: 'Salário', icon: 898878),
+SpedingMoney spedingMoney = SpedingMoney(
   name: 'Outubro / 2023',
   value: 1500.0,
   dateRegister: dateRegisterAdd,
 );
 
+Category category = Category(name: 'Salário', icon: 898878);
+
 void main() {
   late final SpedingRepository spedingRepository;
+  late final CategoryRepository categoryRepository;
 
   setUpAll(() async {
     final connector = await initConnectors(directory: './objectbox_databases/');
     spedingRepository = SpedingRepository(connector.speding as SpedingBoxImpl);
+    categoryRepository = CategoryRepository(
+      connector.category as CategoryBoxImpl,
+    );
     // Limpando a casa
-    spedingRepository.delAll();
+    await categoryRepository.delAll();
+    await spedingRepository.delAll();
+
+    category = await categoryRepository.add(category);
+    spedingMoney.category.target = category;
   });
 
-  tearDownAll(() {
-    spedingRepository.delAll();
+  tearDownAll(() async {
+    await categoryRepository.delAll();
+    await spedingRepository.delAll();
   });
 
   group('SpedingRepository', () {

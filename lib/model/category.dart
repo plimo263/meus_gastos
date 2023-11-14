@@ -11,11 +11,13 @@ class Category {
   @Unique()
   String name;
   int icon;
+  String color;
 
-  Category({required this.name, required this.icon});
+  Category({required this.name, required this.icon, this.color = '#000000'});
 
   Category.fromMap(Map<String, dynamic> map)
       : id = map['id'] as int,
         name = map['name'] as String,
-        icon = map['icon'] as int;
+        icon = map['icon'] as int,
+        color = map.containsKey('color') ? map['color'] as String : '#000000';
 }

@@ -8,11 +8,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime.now(),
       );
+      spedingMoney.category.target = category;
 
       expect(spedingMoney, isA<SpedingMoney>());
     });
@@ -21,11 +21,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime(2023, 11, 10),
       );
+      spedingMoney.category.target = category;
 
       expect(spedingMoney.getDateRegister(), '10/11/23');
     });
@@ -34,11 +34,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime(2023, 11, 10),
       );
+      spedingMoney.category.target = category;
 
       expect(spedingMoney.getValueMonetary(), '-R\$ 50,00');
     });
@@ -47,11 +47,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime(2023, 11, 10),
       );
+      spedingMoney.category.target = category;
 
       spedingMoney.amountPaid = 50.0;
 
@@ -62,11 +62,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime(2023, 11, 10),
       );
+      spedingMoney.category.target = category;
 
       spedingMoney.amountPaid = 40.0;
 
@@ -77,11 +77,11 @@ void main() {
       final category = Category(name: 'Cartão', icon: 889899);
 
       final spedingMoney = SpedingMoney(
-        category: category,
         name: 'Anuidade',
         value: 50.0,
         dateRegister: DateTime(2023, 11, 10),
       );
+      spedingMoney.category.target = category;
 
       expect(spedingMoney.getBalanceMonetary(), 'R\$ 50,00');
 

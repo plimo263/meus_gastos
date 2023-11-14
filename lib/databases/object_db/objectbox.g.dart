@@ -15,8 +15,10 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import '../../model/category.dart';
+import '../../model/credit_card.dart';
 import '../../model/financial_income.dart';
 import '../../model/speding_money.dart';
+import '../../model/user.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -24,7 +26,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 861162380915200976),
       name: 'Category',
-      lastPropertyId: const IdUid(3, 2396819350577565862),
+      lastPropertyId: const IdUid(4, 8231254630696679321),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -42,6 +44,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(3, 2396819350577565862),
             name: 'icon',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 8231254630696679321),
+            name: 'color',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -49,7 +56,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(2, 8118950560246083324),
       name: 'FinancialIncome',
-      lastPropertyId: const IdUid(6, 3003170290294033733),
+      lastPropertyId: const IdUid(8, 7096820149567661762),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -78,19 +85,26 @@ final _entities = <ModelEntity>[
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 3003170290294033733),
-            name: 'categoryRefId',
+            id: const IdUid(7, 8190284111958072432),
+            name: 'categoryId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(2, 1070473814994430688),
-            relationTarget: 'Category')
+            indexId: const IdUid(6, 2276951893719110841),
+            relationTarget: 'Category'),
+        ModelProperty(
+            id: const IdUid(8, 7096820149567661762),
+            name: 'userId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(7, 8476377373358227536),
+            relationTarget: 'User')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
       id: const IdUid(3, 7594537844688304618),
       name: 'SpedingMoney',
-      lastPropertyId: const IdUid(7, 7615447201201215313),
+      lastPropertyId: const IdUid(10, 5567715936330986244),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -124,12 +138,80 @@ final _entities = <ModelEntity>[
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 7615447201201215313),
-            name: 'categoryRefId',
+            id: const IdUid(8, 5026955437404511723),
+            name: 'categoryId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(3, 4284874061219550202),
-            relationTarget: 'Category')
+            indexId: const IdUid(4, 6446637483268869612),
+            relationTarget: 'Category'),
+        ModelProperty(
+            id: const IdUid(9, 3534326678494092358),
+            name: 'userId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(8, 2432221722895072948),
+            relationTarget: 'User'),
+        ModelProperty(
+            id: const IdUid(10, 5567715936330986244),
+            name: 'creditCardId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(9, 4303879689631627431),
+            relationTarget: 'CreditCard')
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 7328518671491570113),
+      name: 'CreditCard',
+      lastPropertyId: const IdUid(3, 2856779970064091781),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 1623471520233072122),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 2350848137964703413),
+            name: 'name',
+            type: 9,
+            flags: 2080,
+            indexId: const IdUid(5, 8274871505640392927)),
+        ModelProperty(
+            id: const IdUid(3, 2856779970064091781),
+            name: 'dayOfPayment',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(5, 578568064908951314),
+      name: 'User',
+      lastPropertyId: const IdUid(4, 8032024584915483322),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 6027775699903880889),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 330375417605935388),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 3469911718535871214),
+            name: 'email',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 8032024584915483322),
+            name: 'avatar',
+            type: 9,
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -162,13 +244,13 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(3, 7594537844688304618),
-      lastIndexId: const IdUid(3, 4284874061219550202),
+      lastEntityId: const IdUid(5, 578568064908951314),
+      lastIndexId: const IdUid(9, 4303879689631627431),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredIndexUids: const [4284874061219550202, 1070473814994430688],
+      retiredPropertyUids: const [7615447201201215313, 3003170290294033733],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -185,10 +267,12 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (Category object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(4);
+          final colorOffset = fbb.writeString(object.color);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.icon);
+          fbb.addOffset(3, colorOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -199,14 +283,18 @@ ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final iconParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final object = Category(name: nameParam, icon: iconParam)
+          final colorParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = Category(
+              name: nameParam, icon: iconParam, color: colorParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
         }),
     FinancialIncome: EntityDefinition<FinancialIncome>(
         model: _entities[1],
-        toOneRelations: (FinancialIncome object) => [object.categoryRef],
+        toOneRelations: (FinancialIncome object) =>
+            [object.category, object.user],
         toManyRelations: (FinancialIncome object) => {},
         getId: (FinancialIncome object) => object.id,
         setId: (FinancialIncome object, int id) {
@@ -215,13 +303,14 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (FinancialIncome object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(7);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addFloat64(2, object.value);
           fbb.addInt64(3, object.dateRegister.millisecondsSinceEpoch);
           fbb.addOffset(4, descriptionOffset);
-          fbb.addInt64(5, object.categoryRef.targetId);
+          fbb.addInt64(6, object.category.targetId);
+          fbb.addInt64(7, object.user.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -243,14 +332,18 @@ ModelDefinition getObjectBoxModel() {
               dateRegister: dateRegisterParam,
               description: descriptionParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          object.categoryRef.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
-          object.categoryRef.attach(store);
+          object.category.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+          object.category.attach(store);
+          object.user.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
+          object.user.attach(store);
           return object;
         }),
     SpedingMoney: EntityDefinition<SpedingMoney>(
         model: _entities[2],
-        toOneRelations: (SpedingMoney object) => [object.categoryRef],
+        toOneRelations: (SpedingMoney object) =>
+            [object.category, object.user, object.creditCard],
         toManyRelations: (SpedingMoney object) => {},
         getId: (SpedingMoney object) => object.id,
         setId: (SpedingMoney object, int id) {
@@ -259,14 +352,16 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (SpedingMoney object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(8);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id);
           fbb.addFloat64(1, object.amountPaid);
           fbb.addOffset(2, nameOffset);
           fbb.addFloat64(3, object.value);
           fbb.addInt64(4, object.dateRegister.millisecondsSinceEpoch);
           fbb.addOffset(5, descriptionOffset);
-          fbb.addInt64(6, object.categoryRef.targetId);
+          fbb.addInt64(7, object.category.targetId);
+          fbb.addInt64(8, object.user.targetId);
+          fbb.addInt64(9, object.creditCard.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -290,9 +385,79 @@ ModelDefinition getObjectBoxModel() {
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
             ..amountPaid =
                 const fb.Float64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          object.categoryRef.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
-          object.categoryRef.attach(store);
+          object.category.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
+          object.category.attach(store);
+          object.user.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
+          object.user.attach(store);
+          object.creditCard.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
+          object.creditCard.attach(store);
+          return object;
+        }),
+    CreditCard: EntityDefinition<CreditCard>(
+        model: _entities[3],
+        toOneRelations: (CreditCard object) => [],
+        toManyRelations: (CreditCard object) => {},
+        getId: (CreditCard object) => object.id,
+        setId: (CreditCard object, int id) {
+          object.id = id;
+        },
+        objectToFB: (CreditCard object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addInt64(2, object.dayOfPayment);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final dayOfPaymentParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final object = CreditCard(nameParam, dayOfPaymentParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    User: EntityDefinition<User>(
+        model: _entities[4],
+        toOneRelations: (User object) => [],
+        toManyRelations: (User object) => {},
+        getId: (User object) => object.id,
+        setId: (User object, int id) {
+          object.id = id;
+        },
+        objectToFB: (User object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final emailOffset = fbb.writeString(object.email);
+          final avatarOffset = fbb.writeString(object.avatar);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, emailOffset);
+          fbb.addOffset(3, avatarOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final avatarParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = User(idParam, nameParam, emailParam, avatarParam);
+
           return object;
         })
   };
@@ -311,6 +476,10 @@ class Category_ {
   /// see [Category.icon]
   static final icon =
       QueryIntegerProperty<Category>(_entities[0].properties[2]);
+
+  /// see [Category.color]
+  static final color =
+      QueryStringProperty<Category>(_entities[0].properties[3]);
 }
 
 /// [FinancialIncome] entity fields to define ObjectBox queries.
@@ -335,9 +504,13 @@ class FinancialIncome_ {
   static final description =
       QueryStringProperty<FinancialIncome>(_entities[1].properties[4]);
 
-  /// see [FinancialIncome.categoryRef]
-  static final categoryRef =
+  /// see [FinancialIncome.category]
+  static final category =
       QueryRelationToOne<FinancialIncome, Category>(_entities[1].properties[5]);
+
+  /// see [FinancialIncome.user]
+  static final user =
+      QueryRelationToOne<FinancialIncome, User>(_entities[1].properties[6]);
 }
 
 /// [SpedingMoney] entity fields to define ObjectBox queries.
@@ -366,7 +539,45 @@ class SpedingMoney_ {
   static final description =
       QueryStringProperty<SpedingMoney>(_entities[2].properties[5]);
 
-  /// see [SpedingMoney.categoryRef]
-  static final categoryRef =
+  /// see [SpedingMoney.category]
+  static final category =
       QueryRelationToOne<SpedingMoney, Category>(_entities[2].properties[6]);
+
+  /// see [SpedingMoney.user]
+  static final user =
+      QueryRelationToOne<SpedingMoney, User>(_entities[2].properties[7]);
+
+  /// see [SpedingMoney.creditCard]
+  static final creditCard =
+      QueryRelationToOne<SpedingMoney, CreditCard>(_entities[2].properties[8]);
+}
+
+/// [CreditCard] entity fields to define ObjectBox queries.
+class CreditCard_ {
+  /// see [CreditCard.id]
+  static final id =
+      QueryIntegerProperty<CreditCard>(_entities[3].properties[0]);
+
+  /// see [CreditCard.name]
+  static final name =
+      QueryStringProperty<CreditCard>(_entities[3].properties[1]);
+
+  /// see [CreditCard.dayOfPayment]
+  static final dayOfPayment =
+      QueryIntegerProperty<CreditCard>(_entities[3].properties[2]);
+}
+
+/// [User] entity fields to define ObjectBox queries.
+class User_ {
+  /// see [User.id]
+  static final id = QueryIntegerProperty<User>(_entities[4].properties[0]);
+
+  /// see [User.name]
+  static final name = QueryStringProperty<User>(_entities[4].properties[1]);
+
+  /// see [User.email]
+  static final email = QueryStringProperty<User>(_entities[4].properties[2]);
+
+  /// see [User.avatar]
+  static final avatar = QueryStringProperty<User>(_entities[4].properties[3]);
 }

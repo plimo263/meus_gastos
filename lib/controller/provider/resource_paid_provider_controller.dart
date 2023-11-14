@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/controller/resource_paid_controller.dart';
 import 'package:meus_gastos/model/financial_income.dart';
-import 'package:meus_gastos/model/resource_paid.dart';
+import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/repository/income_repository.dart';
 import 'package:meus_gastos/repository/speding_repository.dart';

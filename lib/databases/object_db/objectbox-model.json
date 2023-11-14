@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:861162380915200976",
-      "lastPropertyId": "3:2396819350577565862",
+      "lastPropertyId": "4:8231254630696679321",
       "name": "Category",
       "properties": [
         {
@@ -25,13 +25,18 @@
           "id": "3:2396819350577565862",
           "name": "icon",
           "type": 6
+        },
+        {
+          "id": "4:8231254630696679321",
+          "name": "color",
+          "type": 9
         }
       ],
       "relations": []
     },
     {
       "id": "2:8118950560246083324",
-      "lastPropertyId": "6:3003170290294033733",
+      "lastPropertyId": "8:7096820149567661762",
       "name": "FinancialIncome",
       "properties": [
         {
@@ -61,19 +66,27 @@
           "type": 9
         },
         {
-          "id": "6:3003170290294033733",
-          "name": "categoryRefId",
+          "id": "7:8190284111958072432",
+          "name": "categoryId",
           "type": 11,
           "flags": 520,
-          "indexId": "2:1070473814994430688",
+          "indexId": "6:2276951893719110841",
           "relationTarget": "Category"
+        },
+        {
+          "id": "8:7096820149567661762",
+          "name": "userId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "7:8476377373358227536",
+          "relationTarget": "User"
         }
       ],
       "relations": []
     },
     {
       "id": "3:7594537844688304618",
-      "lastPropertyId": "7:7615447201201215313",
+      "lastPropertyId": "10:5567715936330986244",
       "name": "SpedingMoney",
       "properties": [
         {
@@ -108,26 +121,103 @@
           "type": 9
         },
         {
-          "id": "7:7615447201201215313",
-          "name": "categoryRefId",
+          "id": "8:5026955437404511723",
+          "name": "categoryId",
           "type": 11,
           "flags": 520,
-          "indexId": "3:4284874061219550202",
+          "indexId": "4:6446637483268869612",
           "relationTarget": "Category"
+        },
+        {
+          "id": "9:3534326678494092358",
+          "name": "userId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "8:2432221722895072948",
+          "relationTarget": "User"
+        },
+        {
+          "id": "10:5567715936330986244",
+          "name": "creditCardId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "9:4303879689631627431",
+          "relationTarget": "CreditCard"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7328518671491570113",
+      "lastPropertyId": "3:2856779970064091781",
+      "name": "CreditCard",
+      "properties": [
+        {
+          "id": "1:1623471520233072122",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2350848137964703413",
+          "name": "name",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "5:8274871505640392927"
+        },
+        {
+          "id": "3:2856779970064091781",
+          "name": "dayOfPayment",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:578568064908951314",
+      "lastPropertyId": "4:8032024584915483322",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:6027775699903880889",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:330375417605935388",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3469911718535871214",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:8032024584915483322",
+          "name": "avatar",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "3:7594537844688304618",
-  "lastIndexId": "3:4284874061219550202",
+  "lastEntityId": "5:578568064908951314",
+  "lastIndexId": "9:4303879689631627431",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    4284874061219550202,
+    1070473814994430688
+  ],
+  "retiredPropertyUids": [
+    7615447201201215313,
+    3003170290294033733
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

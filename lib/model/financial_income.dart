@@ -1,9 +1,10 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:intl/intl.dart';
 import 'package:meus_gastos/model/category.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'resource_paid.dart';
+import 'interfaces/resource_paid.dart';
 
 /// Esta classe é uma entidade de recursos financeiros, são as entradas
 /// de valores no Applicativo. Ela estende [ResourcePaid] para criação
@@ -14,24 +15,22 @@ class FinancialIncome implements ResourcePaid {
   @Id()
   int id = 0;
 
-  @Transient()
-  Category? category;
-
-  final categoryRef = ToOne<Category>();
-
   String name;
   double value;
 
+  @override
   @Property(type: PropertyType.date)
   DateTime dateRegister;
   String description;
+
+  final category = ToOne<Category>();
+  final user = ToOne<User>();
 
   FinancialIncome({
     required this.name,
     required this.value,
     required this.dateRegister,
     this.description = '',
-    this.category,
   });
 
   /// Retorna o valor do recurso no formato R$ 0,00

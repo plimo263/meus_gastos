@@ -1,34 +1,42 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meus_gastos/dao/dao_connector.dart';
+import 'package:meus_gastos/dao/objectbox/category_box.dart';
 import 'package:meus_gastos/dao/objectbox/income_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 
-final financialIncome = FinancialIncome(
-    category: Category(name: 'Alimentação', icon: 898878),
-    name: 'Padaria',
-    value: 50.0,
-    dateRegister: DateTime.now());
+Category category = Category(name: 'Alimentação', icon: 898878);
+FinancialIncome financialIncome =
+    FinancialIncome(name: 'Padaria', value: 50.0, dateRegister: DateTime.now());
 
 void main() {
   late final IncomeBoxImpl incomeBox;
+  late final CategoryBoxImpl categoryBox;
 
   setUpAll(() async {
     final connector = await initConnectors(directory: './objectbox_databases/');
     incomeBox = connector.income as IncomeBoxImpl;
+    categoryBox = connector.category as CategoryBoxImpl;
     // Limpando a casa
+    await categoryBox.delAll();
     await incomeBox.delAll();
+
+    category = await categoryBox.add(category);
+
+    financialIncome.category.target = category;
   });
 
   tearDownAll(() async {
+    // Limpando a casa
+    await categoryBox.delAll();
     await incomeBox.delAll();
   });
 
   group('IncomeBoxDao', () {
     test('add', () async {
       final box = incomeBox;
-      final cate = await box.add(financialIncome);
-      expect(cate, isA<FinancialIncome>());
+      financialIncome = await box.add(financialIncome);
+      expect(financialIncome, isA<FinancialIncome>());
     });
 
     test('getAll', () async {
