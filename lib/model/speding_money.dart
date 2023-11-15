@@ -75,4 +75,11 @@ class SpedingMoney implements ResourcePaid, Balance {
   String getBalanceMonetary() {
     return UtilBrasilFields.obterReal(value - amountPaid);
   }
+
+  @override
+  int get hashCode => id;
+
+  @override
+  bool operator ==(Object? other) =>
+      other is SpedingMoney && other.name == name;
 }

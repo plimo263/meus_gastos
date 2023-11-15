@@ -9,8 +9,14 @@ class CreditCard implements Card {
 
   @Unique()
   String name;
-
   int dayOfPayment;
+  String color;
 
-  CreditCard(this.name, this.dayOfPayment);
+  CreditCard(this.name, this.dayOfPayment, [this.color = '#000000']);
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  bool operator ==(Object? other) => other is CreditCard && other.name == name;
 }

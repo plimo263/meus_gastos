@@ -44,4 +44,11 @@ class FinancialIncome implements ResourcePaid {
   String getDateRegister() {
     return DateFormat('dd/MM/yy').format(dateRegister);
   }
+
+  @override
+  int get hashCode => id;
+
+  @override
+  bool operator ==(Object? other) =>
+      other is FinancialIncome && other.name == name;
 }

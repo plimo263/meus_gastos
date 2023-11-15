@@ -20,4 +20,10 @@ class Category {
         name = map['name'] as String,
         icon = map['icon'] as int,
         color = map.containsKey('color') ? map['color'] as String : '#000000';
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  bool operator ==(Object? other) => other is Category && other.name == name;
 }
