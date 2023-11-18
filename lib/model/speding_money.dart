@@ -26,6 +26,8 @@ class SpedingMoney implements ResourcePaid, Balance {
   String description;
 
   double _amountPaid = 0.0;
+  String? uuidPortion;
+  int parcelPosition = 0;
 
   final category = ToOne<Category>();
   final user = ToOne<User>();

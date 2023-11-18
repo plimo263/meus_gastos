@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/themes/colors.dart';
 
-final theme = ThemeData(
-  primaryColor: primaryColor,
-  colorScheme: const ColorScheme(
-    brightness: Brightness.light,
-    primary: primaryColor,
-    onPrimary: Colors.white,
-    secondary: secondaryColor,
-    onSecondary: Colors.black,
-    error: Colors.red,
-    onError: Colors.white,
-    background: colorBackground,
-    onBackground: Colors.black,
-    surface: Colors.white,
-    onSurface: Colors.black,
+/// Tema claro com configurações
+
+final _colors = ColorsApp();
+
+final themeLight = ThemeData(
+  brightness: Brightness.light,
+  primaryColor: _colors.primary,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: _colors.primary,
+    secondary: _colors.secondary,
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: primaryColor,
-    selectedItemColor: Colors.black,
+  primarySwatch: Colors.green,
+  scaffoldBackgroundColor: _colors.backgroundScreen,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      foregroundColor: _colors.onPrimary,
+      backgroundColor: _colors.primary,
+      padding: const EdgeInsets.all(8),
+    ),
   ),
 );

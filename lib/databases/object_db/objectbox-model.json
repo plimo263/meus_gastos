@@ -86,7 +86,7 @@
     },
     {
       "id": "3:7594537844688304618",
-      "lastPropertyId": "10:5567715936330986244",
+      "lastPropertyId": "12:1170970019885387891",
       "name": "SpedingMoney",
       "properties": [
         {
@@ -143,13 +143,23 @@
           "flags": 520,
           "indexId": "9:4303879689631627431",
           "relationTarget": "CreditCard"
+        },
+        {
+          "id": "11:1392107855688344693",
+          "name": "uuidPortion",
+          "type": 9
+        },
+        {
+          "id": "12:1170970019885387891",
+          "name": "parcelPosition",
+          "type": 6
         }
       ],
       "relations": []
     },
     {
       "id": "4:7328518671491570113",
-      "lastPropertyId": "3:2856779970064091781",
+      "lastPropertyId": "4:447126276237333090",
       "name": "CreditCard",
       "properties": [
         {
@@ -169,13 +179,18 @@
           "id": "3:2856779970064091781",
           "name": "dayOfPayment",
           "type": 6
+        },
+        {
+          "id": "4:447126276237333090",
+          "name": "color",
+          "type": 9
         }
       ],
       "relations": []
     },
     {
       "id": "5:578568064908951314",
-      "lastPropertyId": "4:8032024584915483322",
+      "lastPropertyId": "5:8725801967159225986",
       "name": "User",
       "properties": [
         {
@@ -197,6 +212,11 @@
         {
           "id": "4:8032024584915483322",
           "name": "avatar",
+          "type": 9
+        },
+        {
+          "id": "5:8725801967159225986",
+          "name": "uid",
           "type": 9
         }
       ],

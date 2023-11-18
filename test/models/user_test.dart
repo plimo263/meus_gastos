@@ -5,7 +5,7 @@ void main() {
   group('User', () {
     test('Instance of User', () {
       final user = User(
-          1, 'email@example.com', 'Fulano de tal', 'https://avatar.com.br');
+          '1', 'email@example.com', 'Fulano de tal', 'https://avatar.com.br');
       expect(user, isA<User>());
     });
   });

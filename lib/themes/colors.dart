@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-/// Separação das cores utilizadas no aplicativo
-///
-const primaryColor = Color(0xff7ABE90);
-const secondaryColor = Color(0xffFFC239);
-const primaryColorLight = Color(0xffE57373);
+/// Classe que centraliza as cores do App para os mais diferentes acessos.
+class ColorsApp {
+  final Color primary = Colors.green.shade800;
+  final Color secondary = Colors.purple;
+  final Color onPrimary = Colors.white;
+  final Color onSecondary = Colors.white;
+  final Color backgroundScreen = Colors.grey.shade200;
 
-const colorSpeding = Color(0xffE57373);
-const colorIncome = Color(0xff81C784);
-const colorSpedingLight = Color(0xffEF9A9A);
-const colorIncomeLight = Color(0xffC8E6C9);
+  static final _instance = ColorsApp._init();
 
-const colorBackground = Color(0xffD9D9D9);
+  factory ColorsApp() {
+    return _instance;
+  }
+
+  ColorsApp._init();
+}

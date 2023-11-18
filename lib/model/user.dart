@@ -6,9 +6,10 @@ import 'package:objectbox/objectbox.dart';
 class User {
   @Id()
   int id = 0;
+  final String uid;
   final String name;
   final String email;
   final String avatar;
 
-  User(this.id, this.name, this.email, this.avatar);
+  User(this.uid, this.name, this.email, this.avatar);
 }

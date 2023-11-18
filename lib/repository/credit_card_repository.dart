@@ -1,4 +1,3 @@
-import 'package:meus_gastos/dao/category_dao.dart';
 import 'package:meus_gastos/dao/credit_card_dao.dart';
 
 import '../model/credit_card.dart';

@@ -104,7 +104,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(3, 7594537844688304618),
       name: 'SpedingMoney',
-      lastPropertyId: const IdUid(10, 5567715936330986244),
+      lastPropertyId: const IdUid(12, 1170970019885387891),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -157,14 +157,24 @@ final _entities = <ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const IdUid(9, 4303879689631627431),
-            relationTarget: 'CreditCard')
+            relationTarget: 'CreditCard'),
+        ModelProperty(
+            id: const IdUid(11, 1392107855688344693),
+            name: 'uuidPortion',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(12, 1170970019885387891),
+            name: 'parcelPosition',
+            type: 6,
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
       id: const IdUid(4, 7328518671491570113),
       name: 'CreditCard',
-      lastPropertyId: const IdUid(3, 2856779970064091781),
+      lastPropertyId: const IdUid(4, 447126276237333090),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -182,6 +192,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(3, 2856779970064091781),
             name: 'dayOfPayment',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 447126276237333090),
+            name: 'color',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -189,7 +204,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(5, 578568064908951314),
       name: 'User',
-      lastPropertyId: const IdUid(4, 8032024584915483322),
+      lastPropertyId: const IdUid(5, 8725801967159225986),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -210,6 +225,11 @@ final _entities = <ModelEntity>[
         ModelProperty(
             id: const IdUid(4, 8032024584915483322),
             name: 'avatar',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 8725801967159225986),
+            name: 'uid',
             type: 9,
             flags: 0)
       ],
@@ -352,7 +372,10 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (SpedingMoney object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(11);
+          final uuidPortionOffset = object.uuidPortion == null
+              ? null
+              : fbb.writeString(object.uuidPortion!);
+          fbb.startTable(13);
           fbb.addInt64(0, object.id);
           fbb.addFloat64(1, object.amountPaid);
           fbb.addOffset(2, nameOffset);
@@ -362,6 +385,8 @@ ModelDefinition getObjectBoxModel() {
           fbb.addInt64(7, object.category.targetId);
           fbb.addInt64(8, object.user.targetId);
           fbb.addInt64(9, object.creditCard.targetId);
+          fbb.addOffset(10, uuidPortionOffset);
+          fbb.addInt64(11, object.parcelPosition);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -384,7 +409,11 @@ ModelDefinition getObjectBoxModel() {
               description: descriptionParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
             ..amountPaid =
-                const fb.Float64Reader().vTableGet(buffer, rootOffset, 6, 0);
+                const fb.Float64Reader().vTableGet(buffer, rootOffset, 6, 0)
+            ..uuidPortion = const fb.StringReader(asciiOptimization: true)
+                .vTableGetNullable(buffer, rootOffset, 24)
+            ..parcelPosition =
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
           object.category.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
           object.category.attach(store);
@@ -406,10 +435,12 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (CreditCard object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(4);
+          final colorOffset = fbb.writeString(object.color);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.dayOfPayment);
+          fbb.addOffset(3, colorOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -420,7 +451,9 @@ ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final dayOfPaymentParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final object = CreditCard(nameParam, dayOfPaymentParam)
+          final colorParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = CreditCard(nameParam, dayOfPaymentParam, colorParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -437,26 +470,29 @@ ModelDefinition getObjectBoxModel() {
           final nameOffset = fbb.writeString(object.name);
           final emailOffset = fbb.writeString(object.email);
           final avatarOffset = fbb.writeString(object.avatar);
-          fbb.startTable(5);
+          final uidOffset = fbb.writeString(object.uid);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, emailOffset);
           fbb.addOffset(3, avatarOffset);
+          fbb.addOffset(4, uidOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final uidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
           final emailParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 8, '');
           final avatarParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
-          final object = User(idParam, nameParam, emailParam, avatarParam);
+          final object = User(uidParam, nameParam, emailParam, avatarParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
         })
@@ -550,6 +586,14 @@ class SpedingMoney_ {
   /// see [SpedingMoney.creditCard]
   static final creditCard =
       QueryRelationToOne<SpedingMoney, CreditCard>(_entities[2].properties[8]);
+
+  /// see [SpedingMoney.uuidPortion]
+  static final uuidPortion =
+      QueryStringProperty<SpedingMoney>(_entities[2].properties[9]);
+
+  /// see [SpedingMoney.parcelPosition]
+  static final parcelPosition =
+      QueryIntegerProperty<SpedingMoney>(_entities[2].properties[10]);
 }
 
 /// [CreditCard] entity fields to define ObjectBox queries.
@@ -565,6 +609,10 @@ class CreditCard_ {
   /// see [CreditCard.dayOfPayment]
   static final dayOfPayment =
       QueryIntegerProperty<CreditCard>(_entities[3].properties[2]);
+
+  /// see [CreditCard.color]
+  static final color =
+      QueryStringProperty<CreditCard>(_entities[3].properties[3]);
 }
 
 /// [User] entity fields to define ObjectBox queries.
@@ -580,4 +628,7 @@ class User_ {
 
   /// see [User.avatar]
   static final avatar = QueryStringProperty<User>(_entities[4].properties[3]);
+
+  /// see [User.uid]
+  static final uid = QueryStringProperty<User>(_entities[4].properties[4]);
 }
