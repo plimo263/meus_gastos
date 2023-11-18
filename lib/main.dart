@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
 import 'package:meus_gastos/controller/provider/credit_card_provider_controller.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Animate.restartOnHotReload = true;
 
   await dotenv.load(fileName: ".env");
   final connectors = await initConnectors();
