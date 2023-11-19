@@ -26,7 +26,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 861162380915200976),
       name: 'Category',
-      lastPropertyId: const IdUid(4, 8231254630696679321),
+      lastPropertyId: const IdUid(6, 4224758401422157435),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -48,6 +48,11 @@ final _entities = <ModelEntity>[
         ModelProperty(
             id: const IdUid(4, 8231254630696679321),
             name: 'color',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 4224758401422157435),
+            name: 'type',
             type: 9,
             flags: 0)
       ],
@@ -270,7 +275,11 @@ ModelDefinition getObjectBoxModel() {
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [4284874061219550202, 1070473814994430688],
-      retiredPropertyUids: const [7615447201201215313, 3003170290294033733],
+      retiredPropertyUids: const [
+        7615447201201215313,
+        3003170290294033733,
+        7312247051740372600
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -288,11 +297,13 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (Category object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final colorOffset = fbb.writeString(object.color);
-          fbb.startTable(5);
+          final typeOffset = fbb.writeString(object.type);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.icon);
           fbb.addOffset(3, colorOffset);
+          fbb.addOffset(5, typeOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -303,10 +314,15 @@ ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final iconParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final typeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 14, '');
           final colorParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
           final object = Category(
-              name: nameParam, icon: iconParam, color: colorParam)
+              name: nameParam,
+              icon: iconParam,
+              type: typeParam,
+              color: colorParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -516,6 +532,9 @@ class Category_ {
   /// see [Category.color]
   static final color =
       QueryStringProperty<Category>(_entities[0].properties[3]);
+
+  /// see [Category.type]
+  static final type = QueryStringProperty<Category>(_entities[0].properties[4]);
 }
 
 /// [FinancialIncome] entity fields to define ObjectBox queries.

@@ -5,7 +5,7 @@ import 'package:meus_gastos/dao/objectbox/income_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 
-Category category = Category(name: 'Alimentação', icon: 898878);
+Category category = Category(name: 'Alimentação', icon: 898878, type: 'income');
 FinancialIncome financialIncome =
     FinancialIncome(name: 'Padaria', value: 50.0, dateRegister: DateTime.now());
 

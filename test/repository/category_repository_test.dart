@@ -4,7 +4,7 @@ import 'package:meus_gastos/dao/objectbox/category_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/repository/category_repository.dart';
 
-final category = Category(name: 'Alimentação', icon: 898878);
+final category = Category(name: 'Alimentação', icon: 898878, type: 'income');
 
 void main() {
   late final CategoryRepository categoryRepository;

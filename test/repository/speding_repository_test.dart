@@ -15,7 +15,7 @@ SpedingMoney spedingMoney = SpedingMoney(
   dateRegister: dateRegisterAdd,
 );
 
-Category category = Category(name: 'Salário', icon: 898878);
+Category category = Category(name: 'Salário', icon: 898878, type: 'income');
 
 void main() {
   late final SpedingRepository spedingRepository;

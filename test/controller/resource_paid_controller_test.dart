@@ -17,8 +17,8 @@ import 'package:meus_gastos/repository/speding_repository.dart';
 
 final dateRegister = DateTime(2023, 11, 11);
 
-Category category = Category(name: 'Salario', icon: 984246);
-Category category2 = Category(name: 'Padaria', icon: 984246);
+Category category = Category(name: 'Salario', icon: 984246, type: 'income');
+Category category2 = Category(name: 'Padaria', icon: 984246, type: 'speding');
 
 FinancialIncome financialIncome = FinancialIncome(
   name: 'Salário de outubro',

@@ -5,7 +5,8 @@ import 'package:meus_gastos/model/financial_income.dart';
 void main() {
   group('FinancialIncome', () {
     test('constructor', () {
-      final category = Category(name: 'Pagamento', icon: 889899);
+      final category =
+          Category(name: 'Pagamento', icon: 889899, type: 'income');
 
       final financialIncome = FinancialIncome(
         name: 'Salário de outubro',
@@ -18,7 +19,8 @@ void main() {
     });
 
     test('getDateRegister()', () {
-      final category = Category(name: 'Pagamento', icon: 889899);
+      final category =
+          Category(name: 'Pagamento', icon: 889899, type: 'income');
 
       final financialIncome = FinancialIncome(
         name: 'Salário de outubro',
@@ -31,7 +33,8 @@ void main() {
     });
 
     test('getValueMonetary()', () {
-      final category = Category(name: 'Pagamento', icon: 889899);
+      final category =
+          Category(name: 'Pagamento', icon: 889899, type: 'income');
 
       final financialIncome = FinancialIncome(
         name: 'Salário de outubro',

@@ -5,7 +5,7 @@ import 'package:meus_gastos/model/speding_money.dart';
 void main() {
   group('SpedingMoney', () {
     test('constructor', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('getDateRegister()', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('getValueMonetary()', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('amountPaid()', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',
@@ -59,7 +59,7 @@ void main() {
     });
 
     test('getBalance()', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',
@@ -74,7 +74,7 @@ void main() {
     });
 
     test('getBalanceMonetary()', () {
-      final category = Category(name: 'Cartão', icon: 889899);
+      final category = Category(name: 'Cartão', icon: 889899, type: 'income');
 
       final spedingMoney = SpedingMoney(
         name: 'Anuidade',

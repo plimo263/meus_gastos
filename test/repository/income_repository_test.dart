@@ -9,10 +9,7 @@ import 'package:meus_gastos/repository/income_repository.dart';
 
 final dateRegisterAdd = DateTime(2023, 11, 11);
 
-Category category = Category(
-  name: 'Alimentação',
-  icon: 898878,
-);
+Category category = Category(name: 'Alimentação', icon: 898878, type: 'income');
 FinancialIncome financialIncome = FinancialIncome(
   name: 'Padaria',
   value: 50.0,

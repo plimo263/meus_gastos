@@ -27,7 +27,7 @@ void main() {
 
   group('CategoryController', () {
     test('add', () async {
-      final cate = Category(name: 'Alimentação', icon: 898878);
+      final cate = Category(name: 'Alimentação', icon: 898878, type: 'income');
       await categoryController.add(cate);
     });
 

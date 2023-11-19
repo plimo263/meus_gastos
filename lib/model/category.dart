@@ -13,12 +13,19 @@ class Category {
   int icon;
   String color;
 
-  Category({required this.name, required this.icon, this.color = '#000000'});
+  String type;
+
+  Category(
+      {required this.name,
+      required this.icon,
+      required this.type,
+      this.color = '#000000'});
 
   Category.fromMap(Map<String, dynamic> map)
       : id = map['id'] as int,
         name = map['name'] as String,
         icon = map['icon'] as int,
+        type = (map['type'] as String),
         color = map.containsKey('color') ? map['color'] as String : '#000000';
 
   @override

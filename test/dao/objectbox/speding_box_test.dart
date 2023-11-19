@@ -5,7 +5,7 @@ import 'package:meus_gastos/dao/objectbox/speding_box.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/speding_money.dart';
 
-Category category = Category(name: 'Salário', icon: 898878);
+Category category = Category(name: 'Salário', icon: 898878, type: 'income');
 SpedingMoney spedingMoney = SpedingMoney(
     name: 'Outubro / 2023', value: 1500.0, dateRegister: DateTime.now());
 

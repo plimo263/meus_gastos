@@ -3,7 +3,7 @@ import 'package:meus_gastos/dao/dao_connector.dart';
 import 'package:meus_gastos/dao/objectbox/category_box.dart';
 import 'package:meus_gastos/model/category.dart';
 
-final category = Category(name: 'Alimentação', icon: 898878);
+final category = Category(name: 'Alimentação', icon: 898878, type: 'income');
 
 void main() {
   late final CategoryBoxImpl categoryBox;
