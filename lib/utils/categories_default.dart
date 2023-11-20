@@ -11,6 +11,13 @@ Map<String, List<Category>> getCategoriesDefault() {
       color: '#4CAF50',
       type: 'income',
     ),
+    // Outros. Nao excluivel
+    Category(
+      icon: Icons.question_mark.codePoint,
+      name: 'Outros',
+      color: '#4CAF50',
+      type: 'income',
+    ),
   ];
 
   final List<Category> spedings = [
@@ -108,6 +115,12 @@ Map<String, List<Category>> getCategoriesDefault() {
     {
       'icon': Icons.school.codePoint,
       'name': 'Educação',
+      'color': '#EF5350',
+    },
+    // Outros. Nao excluivel
+    {
+      'icon': Icons.question_mark.codePoint,
+      'name': 'Outros',
       'color': '#EF5350',
     },
   ]

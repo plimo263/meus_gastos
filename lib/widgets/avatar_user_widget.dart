@@ -7,6 +7,7 @@ class AvatarUserWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
+      maxRadius: 16,
       backgroundImage: NetworkImage(LoginSingleton().user!.user!.avatar),
     );
   }
