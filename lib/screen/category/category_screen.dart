@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/screen/category/new_category_screen.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:meus_gastos/screen/category/update_category_screen.dart';
 import 'package:meus_gastos/widgets/avatar_user_widget.dart';
 import 'package:meus_gastos/widgets/category_widget.dart';
 import 'package:meus_gastos/widgets/popup_menu_widget.dart';
@@ -25,56 +25,20 @@ const _typeCategories = [
   {'text': _CategoryScreenStr.titleTab2, 'icon': Icons.trending_up}
 ];
 
-class CategoryScreen extends StatefulWidget {
+class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
 
-  @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
-  final List<Category> _spedingList = [];
-  final List<Category> _incomeList = [];
-  Category? _categorySelect;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.microtask(onRefresh);
-  }
-
-  void onRefresh() {
-    //
-    _incomeList.clear();
-    _spedingList.clear();
-
-    final categories =
-        (Provider.of<CategoryProviderController>(context, listen: false)
-            .getAll());
-    for (Category cate in categories) {
-      if (cate.type == 'income') {
-        _incomeList.add(cate);
-      } else {
-        _spedingList.add(cate);
-      }
-    }
-    setState(() {});
-  }
-
-  //
-  void onCategorySelected(Category category) {
-    setState(() {
-      _categorySelect = category;
-    });
-  }
-
   // Funcao para editar categoria
-  void onEdit() {}
+  void onEdit(Category category, BuildContext context) {
+    Navigator.of(context).pushNamed(
+      UpdateCategoryScreen.routeName,
+      arguments: category,
+    );
+  }
 
   // Funcao para excluir categoria
-  void onDelete() {
-    if (_categorySelect != null && _categorySelect!.name == 'Outros') {
+  void onDelete(Category category, BuildContext context) {
+    if (category.name == 'Outros') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(_CategoryScreenStr.errorNoPersmissionDelete),
@@ -92,9 +56,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
             actions: [
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    _categorySelect = null;
-                  });
                   Navigator.of(context).pop();
                 },
                 child: const Text(_CategoryScreenStr.labelBtnCancel),
@@ -103,11 +64,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 onPressed: () {
                   Provider.of<CategoryProviderController>(context,
                           listen: false)
-                      .del(_categorySelect!);
-                  setState(() {
-                    _categorySelect = null;
-                  });
-                  onRefresh();
+                      .del(category);
+
                   Navigator.of(context).pop();
                 },
                 child: const Text(_CategoryScreenStr.labelBtnConfirm),
@@ -125,49 +83,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(_CategoryScreenStr.title),
-          actions: _categorySelect != null
-              ? [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _categorySelect = null;
-                      });
-                    },
-                    icon: const Icon(Icons.close),
-                  ).animate().scale(
-                        begin: const Offset(.1, .1),
-                        end: const Offset(1, 1),
-                        duration: 100.ms,
-                      ),
-                  IconButton(
-                    onPressed: onDelete,
-                    icon: const Icon(Icons.delete),
-                  ).animate().scale(
-                        begin: const Offset(.1, .1),
-                        end: const Offset(1, 1),
-                        duration: 120.ms,
-                      ),
-                  IconButton(
-                    onPressed: onEdit,
-                    icon: const Icon(Icons.edit),
-                  ).animate().scale(
-                        begin: const Offset(.1, .1),
-                        end: const Offset(1, 1),
-                        duration: 140.ms,
-                      ),
-                ]
-              : [
-                  const AvatarUserWidget().animate().scale(
-                        begin: const Offset(.1, .1),
-                        end: const Offset(1, 1),
-                        duration: 100.ms,
-                      ),
-                  const PopupMenuWidget().animate().scale(
-                        begin: const Offset(.1, .1),
-                        end: const Offset(1, 1),
-                        duration: 100.ms,
-                      ),
-                ],
+          actions: const [
+            AvatarUserWidget(),
+            PopupMenuWidget(),
+          ],
           bottom: TabBar(
               tabs: _typeCategories
                   .map<Tab>((e) => Tab(
@@ -176,18 +95,34 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ))
                   .toList()),
         ),
-        body: TabBarView(children: [
-          _Spedings(
-            spendings: _spedingList,
-            onRefresh: onRefresh,
-            onLongPress: onCategorySelected,
-          ),
-          _Incomes(
-            incomes: _incomeList,
-            onRefresh: onRefresh,
-            onLongPress: onCategorySelected,
-          )
-        ]),
+        body: Consumer<CategoryProviderController>(
+          builder: (context, value, child) {
+            final spendingList = <Category>[];
+            final incomeList = <Category>[];
+            final categories = value.getAll();
+
+            for (Category cate in categories) {
+              if (cate.type == 'income') {
+                incomeList.add(cate);
+              } else {
+                spendingList.add(cate);
+              }
+            }
+
+            return TabBarView(children: [
+              _Spedings(
+                spendings: spendingList,
+                onLongPress: onDelete,
+                onTap: onEdit,
+              ),
+              _Incomes(
+                incomes: incomeList,
+                onLongPress: onDelete,
+                onTap: onEdit,
+              )
+            ]);
+          },
+        ),
       ),
     );
   }
@@ -195,13 +130,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
 class _Incomes extends StatelessWidget {
   final List<Category> incomes;
-  final VoidCallback onRefresh;
-  final void Function(Category category) onLongPress;
+  final void Function(Category category, BuildContext context) onTap;
+  final void Function(Category category, BuildContext context) onLongPress;
   const _Incomes({
     Key? key,
     required this.incomes,
-    required this.onRefresh,
     required this.onLongPress,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -211,7 +146,10 @@ class _Incomes extends StatelessWidget {
         children: incomes.map<Widget>((e) {
           return Material(
             child: InkWell(
-              onLongPress: () => onLongPress(e),
+              onTap: () {
+                onTap(e, context);
+              },
+              onLongPress: () => onLongPress(e, context),
               child: CategoryWidget(
                 category: e,
               ),
@@ -221,16 +159,10 @@ class _Incomes extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .pushNamed(
+          Navigator.of(context).pushNamed(
             NewCategoryScreen.routeName,
             arguments: 'income',
-          )
-              .then((value) {
-            if (value != null && value is Category) {
-              onRefresh();
-            }
-          });
+          );
         },
         child: const Icon(Icons.trending_up),
       ),
@@ -240,13 +172,13 @@ class _Incomes extends StatelessWidget {
 
 class _Spedings extends StatelessWidget {
   final List<Category> spendings;
-  final VoidCallback onRefresh;
-  final void Function(Category category) onLongPress;
+  final void Function(Category category, BuildContext context) onTap;
+  final void Function(Category category, BuildContext context) onLongPress;
   const _Spedings({
     Key? key,
     required this.spendings,
-    required this.onRefresh,
     required this.onLongPress,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -256,7 +188,10 @@ class _Spedings extends StatelessWidget {
         children: spendings.map<Widget>((e) {
           return Material(
             child: InkWell(
-              onLongPress: () => onLongPress(e),
+              onTap: () {
+                onTap(e, context);
+              },
+              onLongPress: () => onLongPress(e, context),
               child: CategoryWidget(
                 category: e,
               ),
@@ -266,16 +201,10 @@ class _Spedings extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .pushNamed(
+          Navigator.of(context).pushNamed(
             NewCategoryScreen.routeName,
             arguments: 'speding',
-          )
-              .then((value) {
-            if (value != null && value is Category) {
-              onRefresh();
-            }
-          });
+          );
         },
         child: const Icon(Icons.trending_down),
       ),

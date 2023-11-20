@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/screen/category/new_category_screen.dart';
+import 'package:meus_gastos/screen/category/update_category_screen.dart';
 import 'package:meus_gastos/screen/home/home_screen.dart';
 import 'package:meus_gastos/screen/login/login_screen.dart';
 import 'package:meus_gastos/screen/splash/splash_screen.dart';
@@ -16,6 +18,14 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => NewCategoryScreen(
           type: settings.arguments as String,
+        ),
+      );
+    case UpdateCategoryScreen.routeName:
+      final category = settings.arguments as Category;
+      return MaterialPageRoute(
+        builder: (context) => UpdateCategoryScreen(
+          type: category.type,
+          category: category,
         ),
       );
     default:
