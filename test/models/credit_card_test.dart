@@ -4,7 +4,11 @@ import 'package:meus_gastos/model/credit_card.dart';
 void main() {
   group('CreditCard', () {
     test('', () {
-      final creditCard = CreditCard('Cartão Inter', 15);
+      final creditCard = CreditCard(
+        'Cartão Inter',
+        15,
+        20,
+      );
       expect(creditCard, isA<CreditCard>());
     });
   });

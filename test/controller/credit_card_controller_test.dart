@@ -27,7 +27,7 @@ void main() {
 
   group('CreditCardController', () {
     test('add', () async {
-      final creditCard = CreditCard('Banco inter', 15);
+      final creditCard = CreditCard('Banco inter', 15, 20);
       await creditCardController.add(creditCard);
     });
 

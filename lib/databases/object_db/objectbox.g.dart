@@ -179,7 +179,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(4, 7328518671491570113),
       name: 'CreditCard',
-      lastPropertyId: const IdUid(4, 447126276237333090),
+      lastPropertyId: const IdUid(6, 7261378321634822017),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -202,6 +202,16 @@ final _entities = <ModelEntity>[
             id: const IdUid(4, 447126276237333090),
             name: 'color',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 4050933722949294376),
+            name: 'dayGoodBuy',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 7261378321634822017),
+            name: 'limit',
+            type: 8,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -452,11 +462,13 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (CreditCard object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final colorOffset = fbb.writeString(object.color);
-          fbb.startTable(5);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.dayOfPayment);
           fbb.addOffset(3, colorOffset);
+          fbb.addInt64(4, object.dayGoodBuy);
+          fbb.addFloat64(5, object.limit);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -467,9 +479,14 @@ ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final dayOfPaymentParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final dayGoodBuyParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
           final colorParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
-          final object = CreditCard(nameParam, dayOfPaymentParam, colorParam)
+          final limitParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final object = CreditCard(nameParam, dayOfPaymentParam,
+              dayGoodBuyParam, colorParam, limitParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -632,6 +649,14 @@ class CreditCard_ {
   /// see [CreditCard.color]
   static final color =
       QueryStringProperty<CreditCard>(_entities[3].properties[3]);
+
+  /// see [CreditCard.dayGoodBuy]
+  static final dayGoodBuy =
+      QueryIntegerProperty<CreditCard>(_entities[3].properties[4]);
+
+  /// see [CreditCard.limit]
+  static final limit =
+      QueryDoubleProperty<CreditCard>(_entities[3].properties[5]);
 }
 
 /// [User] entity fields to define ObjectBox queries.

@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:objectbox/objectbox.dart';
 import 'interfaces/card.dart';
 
@@ -10,13 +11,26 @@ class CreditCard implements Card {
   @Unique()
   String name;
   int dayOfPayment;
+  int dayGoodBuy;
+  double limit = 0.0;
   String color;
 
-  CreditCard(this.name, this.dayOfPayment, [this.color = '#000000']);
+  CreditCard(
+    this.name,
+    this.dayOfPayment,
+    this.dayGoodBuy, [
+    this.color = '#000000',
+    this.limit = 0.0,
+  ]);
 
   @override
   int get hashCode => name.hashCode;
 
   @override
   bool operator ==(Object? other) => other is CreditCard && other.name == name;
+
+  @override
+  String getValueMonetary() {
+    return UtilBrasilFields.obterReal(limit);
+  }
 }

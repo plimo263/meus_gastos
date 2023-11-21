@@ -4,7 +4,7 @@ import 'package:meus_gastos/dao/objectbox/credit_card_box.dart';
 import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/repository/credit_card_repository.dart';
 
-final creditCard = CreditCard('Banco Inter', 15);
+final creditCard = CreditCard('Banco Inter', 15, 20);
 
 void main() {
   late final CreditCardRepository creditCardRepository;
