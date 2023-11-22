@@ -3,6 +3,7 @@ import 'package:meus_gastos/controller/provider/category_provider_controller.dar
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 import 'package:meus_gastos/widgets/option_mark_widget.dart';
+import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
 
 final _options = [
@@ -25,64 +26,6 @@ final _options = [
   Icons.account_balance_wallet.codePoint,
 ];
 
-final _colors = [
-  '#ffd54f',
-  '#ffca28',
-  '#ffc107',
-  '#ffb300',
-  '#90A4AE',
-  '#78909C',
-  '#607D8B',
-  '#546E7A',
-  '#64B5F6',
-  '#42A5F5',
-  '#2196F3',
-  '#1E88E5',
-  '#A1887F',
-  '#8D6E63',
-  '#795548',
-  '#4DD0E1',
-  '#26C6DA',
-  '#00BCD4',
-  '#00ACC1',
-  '#FF8A65',
-  '#FF7043',
-  '#FF5722',
-  '#F4511E',
-  '#9575CD',
-  '#7E57C2',
-  '#673AB7',
-  '#5E35B1',
-  '#81C784',
-  '#66BB6A',
-  '#4CAF50',
-  '#43A047',
-  '#E0E0E0',
-  '#BDBDBD',
-  '#9E9E9E',
-  '#757575',
-  '#7986CB',
-  '#5C6BC0',
-  '#3F51B5',
-  '#3949AB',
-  '#4FC3F7',
-  '#29B6F6',
-  '#03A9F4',
-  '#039BE5',
-  '#F06292',
-  '#EC407A',
-  '#E91E63',
-  '#D81B60',
-  '#BA68C8',
-  '#AB47BC',
-  '#9C27B0',
-  '#8E24AA',
-  '#E57373',
-  '#F44336',
-  '#E53935',
-  '#EF5350',
-];
-
 /// Campos do formulario para nova categoria.
 class _NewCategoryStr {
   static const newIncome = 'Nova Receita';
@@ -95,6 +38,7 @@ class _NewCategoryStr {
   static const errorName = '* Mínimo de 2 caracteres';
   static const errorIcon = '* Escolha o icone representante';
   static const errorColor = '* Escolha uma das cores para o icone';
+  static const colorSelect = 'ESCOLHA UMA COR';
 }
 
 class FormCategory extends StatefulWidget {
@@ -140,9 +84,22 @@ class _FormCategoryState extends State<FormCategory> {
     });
   }
 
-  void onColorSelect(String colorSelected) {
-    setState(() {
-      _color = colorSelected;
+  // void onColorSelect(String colorSelected) {
+  //   setState(() {
+  //     _color = colorSelected;
+  //   });
+  // }
+
+  void onColorSelect() {
+    Navigator.of(context)
+        .push<String?>(MaterialPageRoute(
+            builder: (context) => const PaletteColorSelectWidget()))
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          _color = value;
+        });
+      }
     });
   }
 
@@ -257,34 +214,26 @@ class _FormCategoryState extends State<FormCategory> {
             const SizedBox(height: 16),
             const Text(_NewCategoryStr.titleIconSelect, style: titleStyle),
             Wrap(
+              spacing: 4.0,
+              runSpacing: 4.0,
               children: _options.map((e) {
-                return OptionMarkWidget(
-                  isMark: _icon == e,
-                  toBackCheck: true,
-                  widgetCheck: Container(
-                    color: _color != null
-                        ? HexColor(_color!)
-                        : Theme.of(context).primaryColor,
-                  ),
-                  child: Card(
-                    elevation: 3,
-                    child: Material(
-                      clipBehavior: Clip.hardEdge,
-                      child: InkWell(
-                        onTap: () {
-                          onIconSelect(e);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            IconData(
-                              e,
-                              fontFamily: 'MaterialIcons',
-                            ),
-                            size: 36,
-                          ),
-                        ),
+                return CircleAvatar(
+                  maxRadius: 24,
+                  backgroundColor: _icon == e
+                      ? _color != null
+                          ? HexColor(_color!)
+                          : Theme.of(context).primaryColor
+                      : Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      onIconSelect(e);
+                    },
+                    child: Icon(
+                      IconData(
+                        e,
+                        fontFamily: 'MaterialIcons',
                       ),
+                      color: _icon == e ? Colors.white : Colors.black54,
                     ),
                   ),
                 );
@@ -295,27 +244,30 @@ class _FormCategoryState extends State<FormCategory> {
               _NewCategoryStr.titleColorSelect,
               style: titleStyle,
             ),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: _colors.map((e) {
-                return OptionMarkWidget(
-                  isMark: e == _color,
-                  child: Material(
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                        onTap: () {
-                          onColorSelect(e);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          width: 36,
-                          height: 36,
-                          color: HexColor(e),
-                        )),
+            SizedBox(
+              width: double.maxFinite,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.all(16.0),
+                  side: BorderSide(
+                    color: _color != null
+                        ? HexColor(_color!)
+                        : Theme.of(context).primaryColor,
+                    width: 2,
                   ),
-                );
-              }).toList(),
+                ),
+                onPressed: onColorSelect,
+                child: Text(
+                  _NewCategoryStr.colorSelect,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _color != null
+                        ? HexColor(_color!)
+                        : Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             SizedBox(
