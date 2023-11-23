@@ -7,6 +7,7 @@ import 'package:meus_gastos/controller/provider/resource_paid_provider_controlle
 import 'package:meus_gastos/dao/category_dao.dart';
 import 'package:meus_gastos/dao/dao_connector.dart';
 import 'package:meus_gastos/model/category.dart';
+import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/repository/category_repository.dart';
 import 'package:meus_gastos/repository/credit_card_repository.dart';
 import 'package:meus_gastos/repository/income_repository.dart';
@@ -15,6 +16,7 @@ import 'package:meus_gastos/screen/routes.dart';
 import 'package:meus_gastos/screen/splash/splash_screen.dart';
 import 'package:meus_gastos/themes/theme_default.dart';
 import 'package:meus_gastos/utils/categories_default.dart';
+import 'package:meus_gastos/utils/prefs.dart';
 import 'package:provider/provider.dart';
 
 /// Realiza a  tarefa inicial de criação das categorias default do sistema
@@ -44,20 +46,32 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
   final connectors = await initConnectors();
-  // Preenche e recupera as categorias padrão do sistema
-  await initCategory(connectors.category);
+  final isInitLoad = await Prefs().isLoadInit();
+  if (!isInitLoad) {
+    // Preenche as categorias padrão do sistema
+    await initCategory(connectors.category);
+    // Marca para que não seja carregado os dados novamente.
+    await Prefs().setLoadInit();
+  }
+  // Carrega as categorias do sistema
   final categoriesList = await connectors.category.getAll();
+  final cardList = await connectors.creditCard.getAll();
 
-  runApp(MyApp(connectors: connectors, categories: categoriesList));
+  runApp(MyApp(
+      connectors: connectors,
+      categories: categoriesList,
+      creditCards: cardList));
 }
 
 class MyApp extends StatelessWidget {
   final DaoConnector connectors;
   final List<Category> categories;
+  final List<CreditCard> creditCards;
   const MyApp({
     super.key,
     required this.connectors,
     required this.categories,
+    required this.creditCards,
   });
 
   @override
@@ -73,7 +87,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => CreditCardProviderController(
             CreditCardRepository(connectors.creditCard),
-            [],
+            creditCards,
           ),
         ),
         ChangeNotifierProvider(

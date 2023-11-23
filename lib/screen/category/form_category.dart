@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
-import 'package:meus_gastos/widgets/option_mark_widget.dart';
 import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -158,7 +157,7 @@ class _FormCategoryState extends State<FormCategory> {
     );
 
     if (widget.category != null) {
-      widget.category!.name = _nameField.text;
+      widget.category!.name = _nameField.text.trim();
       widget.category!.icon = _icon!;
       widget.category!.color = _color!;
       providerRef.update(widget.category!).then(onSuccess).catchError(onError);
@@ -186,6 +185,10 @@ class _FormCategoryState extends State<FormCategory> {
         ),
       ),
     );
+  }
+
+  Color getColorSelected() {
+    return _color != null ? HexColor(_color!) : Theme.of(context).primaryColor;
   }
 
   @override
@@ -219,11 +222,8 @@ class _FormCategoryState extends State<FormCategory> {
               children: _options.map((e) {
                 return CircleAvatar(
                   maxRadius: 24,
-                  backgroundColor: _icon == e
-                      ? _color != null
-                          ? HexColor(_color!)
-                          : Theme.of(context).primaryColor
-                      : Colors.transparent,
+                  backgroundColor:
+                      _icon == e ? getColorSelected() : Colors.transparent,
                   child: InkWell(
                     onTap: () {
                       onIconSelect(e);
@@ -250,22 +250,29 @@ class _FormCategoryState extends State<FormCategory> {
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),
                   side: BorderSide(
-                    color: _color != null
-                        ? HexColor(_color!)
-                        : Theme.of(context).primaryColor,
+                    color: getColorSelected(),
                     width: 2,
                   ),
                 ),
                 onPressed: onColorSelect,
-                child: Text(
-                  _NewCategoryStr.colorSelect,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: _color != null
-                        ? HexColor(_color!)
-                        : Theme.of(context).primaryColor,
-                  ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _NewCategoryStr.colorSelect,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: getColorSelected(),
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.circle,
+                      color: getColorSelected(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -274,7 +281,9 @@ class _FormCategoryState extends State<FormCategory> {
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: onFormSave,
-                child: const Text(_NewCategoryStr.labelBtnSave),
+                child: const Text(
+                  _NewCategoryStr.labelBtnSave,
+                ),
               ),
             ),
           ],

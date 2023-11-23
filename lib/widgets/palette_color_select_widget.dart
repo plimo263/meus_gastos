@@ -271,11 +271,11 @@ class _PaletteColorSelectWidgetState extends State<PaletteColorSelectWidget>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _pages = [];
+    List<Widget> pages = [];
 
     /// Separa as áreas em lista de widgets
     for (String keyPage in colorsMap.keys) {
-      _pages.add(_PaletteColorPage(
+      pages.add(_PaletteColorPage(
         colors: colorsMap[keyPage]!,
         colorSelection: _colorSelected,
         onTap: onTapColor,
@@ -293,7 +293,7 @@ class _PaletteColorSelectWidgetState extends State<PaletteColorSelectWidget>
           children: [
             TabBarView(
               controller: controller,
-              children: _pages,
+              children: pages,
             ),
             Positioned(
               bottom: 24,

@@ -12,12 +12,15 @@ class _CategoryScreenStr {
   static const title = 'Categoria';
   static const titleTab1 = 'DESPESAS';
   static const titleTab2 = 'RECEITAS';
-  static const errorNoPersmissionDelete = 'Este ícone não pode ser excluído';
+  static const errorNoPersmissionDelete =
+      'Esta categoria não pode ser excluída';
+  static const errorNoPersmissionEdit = 'Esta categoria não pode ser editada';
   static const titleDelete = 'Excluir Categoria';
   static const contentDelete =
-      'Deseja realmente excluir esta categoria ? Ela não poderá ser recuperar e todas as despesas/receitas vinculadas com ela ficará com o icone OUTROS.';
+      'Deseja realmente excluir esta categoria ?\n\nEla não poderá ser recuperada e todas as despesas/receitas vinculadas com ela seram transferidas para a categoria OUTROS.';
   static const labelBtnCancel = 'CANCELAR';
   static const labelBtnConfirm = 'CONFIRMAR';
+  static const bodyBackCardDelete = 'EXCLUIR CATEGORIA';
 }
 
 const _typeCategories = [
@@ -30,6 +33,15 @@ class CategoryScreen extends StatelessWidget {
 
   // Funcao para editar categoria
   void onEdit(Category category, BuildContext context) {
+    if (category.name == 'Outros') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(_CategoryScreenStr.errorNoPersmissionEdit),
+        ),
+      );
+
+      return;
+    }
     Navigator.of(context).pushNamed(
       UpdateCategoryScreen.routeName,
       arguments: category,
@@ -37,7 +49,8 @@ class CategoryScreen extends StatelessWidget {
   }
 
   // Funcao para excluir categoria
-  void onDelete(Category category, BuildContext context) {
+  Future<bool?> onDelete(DismissDirection direction, Category category,
+      BuildContext context) async {
     if (category.name == 'Outros') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -45,9 +58,9 @@ class CategoryScreen extends StatelessWidget {
         ),
       );
 
-      return;
+      return false;
     }
-    showDialog(
+    return showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -56,7 +69,7 @@ class CategoryScreen extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(false);
                 },
                 child: const Text(_CategoryScreenStr.labelBtnCancel),
               ),
@@ -66,7 +79,7 @@ class CategoryScreen extends StatelessWidget {
                           listen: false)
                       .del(category);
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 },
                 child: const Text(_CategoryScreenStr.labelBtnConfirm),
               ),
@@ -112,12 +125,12 @@ class CategoryScreen extends StatelessWidget {
             return TabBarView(children: [
               _Spedings(
                 spendings: spendingList,
-                onLongPress: onDelete,
+                onDelete: onDelete,
                 onTap: onEdit,
               ),
               _Incomes(
                 incomes: incomeList,
-                onLongPress: onDelete,
+                onDelete: onDelete,
                 onTap: onEdit,
               )
             ]);
@@ -131,11 +144,13 @@ class CategoryScreen extends StatelessWidget {
 class _Incomes extends StatelessWidget {
   final List<Category> incomes;
   final void Function(Category category, BuildContext context) onTap;
-  final void Function(Category category, BuildContext context) onLongPress;
+  final Future<bool?> Function(
+          DismissDirection direction, Category category, BuildContext context)
+      onDelete;
   const _Incomes({
     Key? key,
     required this.incomes,
-    required this.onLongPress,
+    required this.onDelete,
     required this.onTap,
   }) : super(key: key);
 
@@ -144,14 +159,19 @@ class _Incomes extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: incomes.map<Widget>((e) {
-          return Material(
-            child: InkWell(
-              onTap: () {
-                onTap(e, context);
-              },
-              onLongPress: () => onLongPress(e, context),
-              child: CategoryWidget(
-                category: e,
+          return Dismissible(
+            key: Key(e.id.toString()),
+            direction: DismissDirection.startToEnd,
+            confirmDismiss: (direction) => onDelete(direction, e, context),
+            background: const _BackgroundDelete(),
+            child: Material(
+              child: InkWell(
+                onTap: () {
+                  onTap(e, context);
+                },
+                child: CategoryWidget(
+                  category: e,
+                ),
               ),
             ),
           );
@@ -173,11 +193,13 @@ class _Incomes extends StatelessWidget {
 class _Spedings extends StatelessWidget {
   final List<Category> spendings;
   final void Function(Category category, BuildContext context) onTap;
-  final void Function(Category category, BuildContext context) onLongPress;
+  final Future<bool?> Function(
+          DismissDirection direction, Category category, BuildContext context)
+      onDelete;
   const _Spedings({
     Key? key,
     required this.spendings,
-    required this.onLongPress,
+    required this.onDelete,
     required this.onTap,
   }) : super(key: key);
 
@@ -186,14 +208,19 @@ class _Spedings extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: spendings.map<Widget>((e) {
-          return Material(
-            child: InkWell(
-              onTap: () {
-                onTap(e, context);
-              },
-              onLongPress: () => onLongPress(e, context),
-              child: CategoryWidget(
-                category: e,
+          return Dismissible(
+            key: Key(e.id.toString()),
+            direction: DismissDirection.startToEnd,
+            confirmDismiss: (direction) => onDelete(direction, e, context),
+            background: const _BackgroundDelete(),
+            child: Material(
+              child: InkWell(
+                onTap: () {
+                  onTap(e, context);
+                },
+                child: CategoryWidget(
+                  category: e,
+                ),
               ),
             ),
           );
@@ -207,6 +234,35 @@ class _Spedings extends StatelessWidget {
           );
         },
         child: const Icon(Icons.trending_down),
+      ),
+    );
+  }
+}
+
+class _BackgroundDelete extends StatelessWidget {
+  const _BackgroundDelete({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.red.shade800,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          children: const [
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            SizedBox(width: 4),
+            Text(
+              _CategoryScreenStr.bodyBackCardDelete,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

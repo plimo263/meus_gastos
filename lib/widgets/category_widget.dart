@@ -15,16 +15,18 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: HexColor(category.color),
-        child: Icon(
-          IconData(category.icon, fontFamily: 'MaterialIcons'),
-          color: Colors.white,
+    return Card(
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: HexColor(category.color),
+          child: Icon(
+            IconData(category.icon, fontFamily: 'MaterialIcons'),
+            color: Colors.white,
+          ),
         ),
+        title: Text(category.name),
+        subtitle: Text(getType()),
       ),
-      title: Text(category.name),
-      subtitle: Text(getType()),
     );
   }
 }
