@@ -9,6 +9,8 @@ import 'package:meus_gastos/themes/hexcolor.dart';
 import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/colors_selected_widget.dart';
+
 typedef TypeValidator = String? Function(String? value);
 typedef TypeSaved = void Function(String? value);
 
@@ -29,7 +31,6 @@ class _CreditCardFormStr {
   static const errorDayGoodBuy = '* O dia bom para compra precisa se definido';
   static const errorDuplicateCard = 'Já existe cartão de crédito com este nome';
   static const errorLimit = '* Defina o limite do cartão de crédito';
-  static const colorSelect = 'ESCOLHA UMA COR';
   static const errorDayOutOfRange = '* Valor precisa ser entre 1 e 30';
 }
 
@@ -213,7 +214,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     );
   }
 
-  void onColorSelect() {
+  void onPaletteColorSelected() {
     Navigator.of(context)
         .push<String?>(MaterialPageRoute(
             builder: (context) => const PaletteColorSelectWidget()))
@@ -224,6 +225,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
         });
       }
     });
+  }
+
+  void onColorSelected(String color) {
+    _color = color;
+    setState(() {});
   }
 
   Color getColorSelected() {
@@ -303,37 +309,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
               ),
             );
           }).toList(),
-          SizedBox(
-            width: double.maxFinite,
-            child: OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.all(16.0),
-                side: BorderSide(
-                  color: getColorSelected(),
-                  width: 2,
-                ),
-              ),
-              onPressed: onColorSelect,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _CreditCardFormStr.colorSelect,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: getColorSelected(),
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    Icons.circle,
-                    color: getColorSelected(),
-                  ),
-                ],
-              ),
-            ),
+          ColorsSelectedWidget(
+            colorSelected: _color,
+            onColorSelect: onColorSelected,
           ),
           const SizedBox(height: 16),
           SizedBox(

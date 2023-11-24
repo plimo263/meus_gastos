@@ -335,6 +335,7 @@ class _PaletteColorPage extends StatelessWidget {
     final widthLarge = MediaQuery.of(context).size.width / 9 - 8;
 
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 72),
       itemCount: keysColors.length,
       itemBuilder: ((context, index) {
         final colorName = keysColors[index];
