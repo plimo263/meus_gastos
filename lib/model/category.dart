@@ -1,3 +1,4 @@
+import 'package:meus_gastos/model/user.dart';
 import 'package:objectbox/objectbox.dart';
 
 /// Classe usada para criar a categoria do recurso. A categoria é o que descreve
@@ -8,12 +9,11 @@ class Category {
   @Id()
   int id = 0;
 
-  @Unique()
   String name;
   int icon;
   String color;
-
   String type;
+  final user = ToOne<User>();
 
   Category(
       {required this.name,

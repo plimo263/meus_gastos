@@ -1,5 +1,6 @@
 import 'package:meus_gastos/dao/income_dao.dart';
 import 'package:meus_gastos/model/financial_income.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/repository/interfaces/base_repository.dart';
 import 'package:meus_gastos/repository/interfaces/filter_repository.dart';
 
@@ -50,5 +51,10 @@ class IncomeRepository
   @override
   Future<FinancialIncome> update(FinancialIncome item) async {
     return await incomeBox.update(item);
+  }
+
+  @override
+  Future<List<FinancialIncome>> getAllByUser(User user) async {
+    return await incomeBox.getAllByUser(user);
   }
 }

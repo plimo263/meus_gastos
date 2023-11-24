@@ -3,7 +3,9 @@ import 'package:meus_gastos/dao/credit_card_dao.dart';
 import 'package:meus_gastos/dao/income_dao.dart';
 import 'package:meus_gastos/dao/objectbox/credit_card_box.dart';
 import 'package:meus_gastos/dao/objectbox/objectboxsingleton.dart';
+import 'package:meus_gastos/dao/objectbox/user_box.dart';
 import 'package:meus_gastos/dao/speding_dao.dart';
+import 'package:meus_gastos/dao/user_dao.dart';
 import 'objectbox/category_box.dart';
 import 'objectbox/income_box.dart';
 import 'objectbox/speding_box.dart';
@@ -19,6 +21,7 @@ class DaoConnector {
   IncomeDAO? _income;
   SpedingDAO? _speding;
   CreditCardDao? _creditCard;
+  UserDAO? _user;
 
   static final DaoConnector _instance = DaoConnector._init();
 
@@ -58,6 +61,14 @@ class DaoConnector {
     _creditCard ??= value;
   }
 
+  UserDAO get user {
+    return _user!;
+  }
+
+  set user(UserDAO value) {
+    _user ??= value;
+  }
+
   DaoConnector._init();
 }
 
@@ -72,6 +83,7 @@ Future<DaoConnector> initConnectors({String? directory}) async {
   daoConnector.income = IncomeBoxImpl(store);
   daoConnector.speding = SpedingBoxImpl(store);
   daoConnector.creditCard = CreditCardBoxImpl(store);
+  daoConnector.user = UserBoxImpl(store);
 
   return daoConnector;
 }

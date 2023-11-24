@@ -1,4 +1,5 @@
 import 'package:meus_gastos/dao/credit_card_dao.dart';
+import 'package:meus_gastos/model/user.dart';
 
 import '../model/credit_card.dart';
 import 'interfaces/base_repository.dart';
@@ -31,5 +32,10 @@ class CreditCardRepository implements BaseRepository<CreditCard> {
   @override
   Future<CreditCard> update(CreditCard item) async {
     return await creditCardBox.update(item);
+  }
+
+  @override
+  Future<List<CreditCard>> getAllByUser(User user) async {
+    return await creditCardBox.getAllByUser(user);
   }
 }

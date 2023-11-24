@@ -6,18 +6,29 @@ class Prefs {
 
   Prefs();
 
-  Future<bool> isLoadInit() async {
+  Future<bool> isLoadInit(String uid) async {
     final prefs = await SharedPreferences.getInstance();
-    final value = prefs.getBool(initLoad);
-    if (value != null) {
-      return value;
+    final List<String>? value = prefs.getStringList(initLoad);
+    if (value != null && value.contains(uid)) {
+      return true;
     }
     return false;
   }
 
   // Diz que foi feita a primeira carga no sistema.
-  Future<void> setLoadInit() async {
+  Future<void> setLoadInit(String uid) async {
+    final List<String> uidsAuth = [];
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(initLoad, true);
+    final List<String>? value = prefs.getStringList(initLoad);
+
+    if (value != null) {
+      uidsAuth.addAll(value);
+    }
+
+    if (!uidsAuth.contains(uid)) {
+      uidsAuth.add(uid);
+    }
+
+    await prefs.setStringList(initLoad, uidsAuth);
   }
 }

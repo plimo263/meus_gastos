@@ -1,6 +1,11 @@
+import 'package:meus_gastos/model/user.dart';
+
 /// Interface para definir tarefas basicas comuns que os repositorios devem ter
 /// como insercao, atualizacao e exclusao de dados
 abstract class BaseRepository<T> {
+  /// Recupera todos os registros do usuario logado
+  Future<List<T>> getAllByUser(User user);
+
   /// Recupera todos os dados salvos
   Future<List<T>> getAll();
 

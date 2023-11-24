@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/controller/category_controller.dart';
 import 'package:meus_gastos/model/category.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/repository/category_repository.dart';
+import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 
 class CategoryProviderController extends ChangeNotifier
     implements CategoryController {
@@ -55,6 +57,14 @@ class CategoryProviderController extends ChangeNotifier
     _categories.addAll(categoryList);
     //
     categoryRepository.update(category);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> init(User user) async {
+    List<Category> categoryList = await categoryRepository.getAllByUser(user);
+    _categories.clear();
+    _categories.addAll(categoryList);
     notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:meus_gastos/dao/income_dao.dart';
 import 'package:meus_gastos/databases/object_db/objectbox.g.dart';
 import 'package:meus_gastos/model/financial_income.dart';
+import 'package:meus_gastos/model/user.dart';
 
 class IncomeBoxImpl implements IncomeDAO {
   late final Box<FinancialIncome> box;
@@ -64,5 +65,11 @@ class IncomeBoxImpl implements IncomeDAO {
   Future<FinancialIncome> update(FinancialIncome item) async {
     await box.putAsync(item);
     return item;
+  }
+
+  @override
+  Future<List<FinancialIncome>> getAllByUser(User user) async {
+    final query = box.query(FinancialIncome_.user.equals(user.id)).build();
+    return await query.findAsync();
   }
 }

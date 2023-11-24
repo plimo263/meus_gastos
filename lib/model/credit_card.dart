@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:objectbox/objectbox.dart';
 import 'interfaces/card.dart';
 
@@ -8,12 +9,13 @@ class CreditCard implements Card {
   @Id()
   int id = 0;
 
-  @Unique()
   String name;
   int dayOfPayment;
   int dayGoodBuy;
   double limit = 0.0;
   String color;
+
+  final user = ToOne<User>();
 
   CreditCard(
     this.name,

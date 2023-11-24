@@ -1,5 +1,6 @@
 import 'package:meus_gastos/dao/speding_dao.dart';
 import 'package:meus_gastos/model/speding_money.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/repository/interfaces/base_repository.dart';
 import 'package:meus_gastos/repository/interfaces/filter_repository.dart';
 
@@ -48,5 +49,10 @@ class SpedingRepository
   @override
   Future<SpedingMoney> update(SpedingMoney item) async {
     return await spedingBox.update(item);
+  }
+
+  @override
+  Future<List<SpedingMoney>> getAllByUser(User user) async {
+    return await spedingBox.getAllByUser(user);
   }
 }

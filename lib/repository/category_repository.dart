@@ -1,5 +1,6 @@
 import 'package:meus_gastos/dao/category_dao.dart';
 import 'package:meus_gastos/model/category.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'interfaces/base_repository.dart';
 
 class CategoryRepository implements BaseRepository<Category> {
@@ -30,5 +31,10 @@ class CategoryRepository implements BaseRepository<Category> {
   @override
   Future<Category> update(Category item) async {
     return await categoryBox.update(item);
+  }
+
+  @override
+  Future<List<Category>> getAllByUser(User user) async {
+    return await categoryBox.getAllByUser(user);
   }
 }

@@ -2,9 +2,11 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meus_gastos/controller/provider/credit_card_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/databases/object_db/objectbox.g.dart';
 
 import 'package:meus_gastos/model/credit_card.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
@@ -154,13 +156,16 @@ class _CreditCardFormState extends State<CreditCardForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
+      final user = Provider.of<UserProviderController>(context, listen: false)
+          .getUser() as User;
+
       final providerRef = Provider.of<CreditCardProviderController>(
         context,
         listen: false,
       );
       if (widget.creditCard != null) {
         widget.creditCard!.color = _color;
-        widget.creditCard!.name = _creditCardFields.name!;
+        widget.creditCard!.name = _creditCardFields.name!.trim();
         widget.creditCard!.dayOfPayment = _creditCardFields.dayOfPayment!;
         widget.creditCard!.dayGoodBuy = _creditCardFields.dayGoodBuy!;
         widget.creditCard!.limit = _creditCardFields.limit!;
@@ -172,12 +177,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
             .catchError(onError, test: (e) => e is Exception);
       } else {
         final newCreditCard = CreditCard(
-          _creditCardFields.name!,
+          _creditCardFields.name!.trim(),
           _creditCardFields.dayOfPayment!,
           _creditCardFields.dayGoodBuy!,
           _color,
           _creditCardFields.limit!,
         );
+        newCreditCard.user.target = user;
         providerRef
             .add(newCreditCard)
             .then(onSuccess)

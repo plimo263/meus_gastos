@@ -1,7 +1,11 @@
 import 'package:meus_gastos/model/credit_card.dart';
+import 'package:meus_gastos/model/user.dart';
 
 /// Interface para manipulação das categorias
 abstract class CreditCardController {
+  /// Rotina de inicializacao no controller
+  Future<void> init(User user);
+
   /// Recupera a lista de cartoes de creditos ativos no controller
   List<CreditCard> getAll();
 

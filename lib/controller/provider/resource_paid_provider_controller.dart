@@ -3,8 +3,10 @@ import 'package:meus_gastos/controller/resource_paid_controller.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 import 'package:meus_gastos/model/speding_money.dart';
+import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/repository/income_repository.dart';
 import 'package:meus_gastos/repository/speding_repository.dart';
+import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 
 class ResourcePaidProviderController extends ChangeNotifier
     implements ResourcePaidController {
@@ -104,6 +106,19 @@ class ResourcePaidProviderController extends ChangeNotifier
     _resourcePaid.clear();
     _resourcePaid.addAll(listInternal);
 
+    notifyListeners();
+  }
+
+  @override
+  Future<void> init(User user) async {
+    List<FinancialIncome> incomeList =
+        await incomeRepository.getAllByUser(user);
+    List<SpedingMoney> spedingList = await spedingRepository.getAllByUser(user);
+    _resourcePaid.clear();
+    _resourcePaid.addAll([
+      ...incomeList,
+      ...spedingList,
+    ]);
     notifyListeners();
   }
 }

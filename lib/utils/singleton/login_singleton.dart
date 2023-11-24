@@ -63,6 +63,7 @@ class LoginSingleton {
   /// Finaliza o login via google deslogando o usuario
   Future<void> logout() async {
     await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
+    //await _googleSignIn.signOut();
+    _userSingleton = null;
   }
 }

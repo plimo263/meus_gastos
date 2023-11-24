@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meus_gastos/model/user.dart';
+import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 import '../../model/credit_card.dart';
 import '../../repository/credit_card_repository.dart';
 import '../credit_card_controller.dart';
@@ -55,6 +57,15 @@ class CreditCardProviderController extends ChangeNotifier
     _creditCards.addAll(creditCardList);
     //
     creditCardRepository.update(creditCard);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> init(User user) async {
+    List<CreditCard> creditCardList =
+        await creditCardRepository.getAllByUser(user);
+    _creditCards.clear();
+    _creditCards.addAll(creditCardList);
     notifyListeners();
   }
 }

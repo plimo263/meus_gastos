@@ -1,7 +1,11 @@
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
+import 'package:meus_gastos/model/user.dart';
 
 /// Interface para interatividades com os recursos de entrada e saida
 abstract class ResourcePaidController {
+  /// Rotina de inicializacao no controller
+  Future<void> init(User user);
+
   /// Adiciona um novo recurso financeiro seja entrada ou saida
   Future<void> add(ResourcePaid item);
 

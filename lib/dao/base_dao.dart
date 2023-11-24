@@ -1,6 +1,11 @@
+import 'package:meus_gastos/model/user.dart';
+
 /// Abstração para implementação do CRUD basico de qualquer registro de
 /// dados.
 abstract class BaseDao<T> {
+  /// Recupera os dados baseado no usuario enviado
+  Future<List<T>> getAllByUser(User user);
+
   /// Inicializador ao conector de recurso do db
   Future<void> init();
 

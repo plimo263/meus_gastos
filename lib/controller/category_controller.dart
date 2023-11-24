@@ -1,7 +1,11 @@
 import 'package:meus_gastos/model/category.dart';
+import 'package:meus_gastos/model/user.dart';
 
 /// Interface para manipulação das categorias
 abstract class CategoryController {
+  /// Rotina de inicializacao no controller
+  Future<void> init(User user);
+
   /// Recupera a lista de categorias ativas no controller
   List<Category> getAll();
 

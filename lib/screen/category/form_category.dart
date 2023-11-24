@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 import 'package:meus_gastos/widgets/colors_selected_widget.dart';
@@ -121,6 +122,9 @@ class _FormCategoryState extends State<FormCategory> {
       listen: false,
     );
 
+    final user =
+        Provider.of<UserProviderController>(context, listen: false).getUser();
+
     if (widget.category != null) {
       widget.category!.name = _nameField.text.trim();
       widget.category!.icon = _icon!;
@@ -129,11 +133,12 @@ class _FormCategoryState extends State<FormCategory> {
     } else {
       // Estao validados criando nova categoria
       final newCategory = Category(
-        name: _nameField.text,
+        name: _nameField.text.trim(),
         icon: _icon!,
         type: widget.type,
         color: _color!,
       );
+      newCategory.user.target = user!;
       providerRef.add(newCategory).then(onSuccess).catchError(onError);
     }
   }

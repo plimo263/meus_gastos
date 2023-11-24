@@ -8,6 +8,7 @@ class UserSingleton {
 
   factory UserSingleton(User user) {
     if (_instance != null) {
+      _instance!._user = user;
       return _instance!;
     }
     _instance = UserSingleton._internal();

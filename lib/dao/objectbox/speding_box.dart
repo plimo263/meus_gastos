@@ -1,6 +1,7 @@
 import 'package:meus_gastos/dao/speding_dao.dart';
 import 'package:meus_gastos/databases/object_db/objectbox.g.dart';
 import 'package:meus_gastos/model/speding_money.dart';
+import 'package:meus_gastos/model/user.dart';
 
 class SpedingBoxImpl implements SpedingDAO {
   late final Box<SpedingMoney> box;
@@ -63,5 +64,11 @@ class SpedingBoxImpl implements SpedingDAO {
   Future<SpedingMoney> update(SpedingMoney item) async {
     await box.putAsync(item);
     return item;
+  }
+
+  @override
+  Future<List<SpedingMoney>> getAllByUser(User user) async {
+    final query = box.query(SpedingMoney_.user.equals(user.id)).build();
+    return await query.findAsync();
   }
 }

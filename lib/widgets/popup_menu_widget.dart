@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/credit_card_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/resource_paid_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/screen/splash/splash_screen.dart';
 import 'package:meus_gastos/utils/singleton/login_singleton.dart';
+import 'package:provider/provider.dart';
 
 class PopupMenuWidget extends StatelessWidget {
   const PopupMenuWidget({Key? key}) : super(key: key);
@@ -12,6 +17,16 @@ class PopupMenuWidget extends StatelessWidget {
           switch (value) {
             case 1:
               LoginSingleton().logout().then((_) {
+                Provider.of<UserProviderController>(context, listen: false)
+                    .logout();
+                Provider.of<CategoryProviderController>(context, listen: false)
+                    .delAll();
+                Provider.of<CreditCardProviderController>(context,
+                        listen: false)
+                    .delAll();
+                Provider.of<ResourcePaidProviderController>(context,
+                        listen: false)
+                    .delAll();
                 Navigator.of(context).pushReplacementNamed(
                   SplashScreen.routeName,
                 );

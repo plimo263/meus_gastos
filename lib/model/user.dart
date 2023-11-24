@@ -6,10 +6,12 @@ import 'package:objectbox/objectbox.dart';
 class User {
   @Id()
   int id = 0;
-  final String uid;
-  final String name;
-  final String email;
-  final String avatar;
+
+  @Unique()
+  String uid;
+  String name;
+  String email;
+  String avatar;
 
   User(this.uid, this.name, this.email, this.avatar);
 }
