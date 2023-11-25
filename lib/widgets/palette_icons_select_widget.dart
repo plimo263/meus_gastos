@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meus_gastos/utils/app_snackbar.dart';
 
 final Map<String, Map<String, List<int>>> allIcons = {
   'Aba 1': {
@@ -204,13 +205,7 @@ class _PaletteIconsSelectWidgetState extends State<PaletteIconsSelectWidget>
     if (_iconSeleted != null) {
       Navigator.of(context).pop(_iconSeleted);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Escolha um icone',
-          ),
-        ),
-      );
+      AppSnackBar().snack('Escolha um ícone');
     }
   }
 

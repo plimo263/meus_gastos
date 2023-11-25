@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
+import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/option_mark_widget.dart';
 
 final colorsMap = {
@@ -253,13 +254,7 @@ class _PaletteColorSelectWidgetState extends State<PaletteColorSelectWidget>
     if (_colorSelected != null) {
       Navigator.of(context).pop(_colorSelected);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Escolha uma cor',
-          ),
-        ),
-      );
+      AppSnackBar().snack('Escolha uma cor');
     }
   }
 

@@ -104,6 +104,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
           final creditCardList = value.getAll();
 
           return ListView.builder(
+              padding: const EdgeInsets.all(8.0),
               itemCount: creditCardList.length,
               itemBuilder: (context, index) {
                 return Dismissible(

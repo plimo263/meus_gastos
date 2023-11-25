@@ -3,6 +3,7 @@ import 'package:meus_gastos/controller/provider/category_provider_controller.dar
 import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
+import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/colors_selected_widget.dart';
 import 'package:meus_gastos/widgets/icons_selected_widget.dart';
 import 'package:provider/provider.dart';
@@ -84,12 +85,8 @@ class _FormCategoryState extends State<FormCategory> {
 
   bool isIconSelect() {
     if (_icon == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            _NewCategoryStr.errorIcon,
-          ),
-        ),
+      AppSnackBar().snack(
+        _NewCategoryStr.errorIcon,
       );
       return false;
     }
@@ -98,12 +95,8 @@ class _FormCategoryState extends State<FormCategory> {
 
   bool isColorSelect() {
     if (_color == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            _NewCategoryStr.errorColor,
-          ),
-        ),
+      AppSnackBar().snack(
+        _NewCategoryStr.errorColor,
       );
       return false;
     }
@@ -148,13 +141,7 @@ class _FormCategoryState extends State<FormCategory> {
   }
 
   void onError(err) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          err.toString(),
-        ),
-      ),
-    );
+    AppSnackBar().snack(err.toString());
   }
 
   Color getColorSelected() {

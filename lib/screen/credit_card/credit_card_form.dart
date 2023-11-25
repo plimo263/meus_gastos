@@ -8,6 +8,7 @@ import 'package:meus_gastos/databases/object_db/objectbox.g.dart';
 import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
+import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,8 @@ class _CreditCardFormStr {
   static const errorDuplicateCard = 'Já existe cartão de crédito com este nome';
   static const errorLimit = '* Defina o limite do cartão de crédito';
   static const errorDayOutOfRange = '* Valor precisa ser entre 1 e 30';
+  static const errorDayGoodBuyGreatherDayPayment =
+      'Dia do fechamento maior que o dia do vencimento';
 }
 
 class _CreditCardFields {
@@ -155,6 +158,16 @@ class _CreditCardFormState extends State<CreditCardForm> {
   void _onSave() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      // Verificar se o dia bom para compra e menor que o dia do fechamento
+      final dayOfPayment = _creditCardFields.dayOfPayment!;
+      final dayGoodBuy = _creditCardFields.dayGoodBuy!;
+
+      if (dayGoodBuy > dayOfPayment) {
+        AppSnackBar().snack(
+          _CreditCardFormStr.errorDayGoodBuyGreatherDayPayment,
+        );
+        return;
+      }
 
       final user = Provider.of<UserProviderController>(context, listen: false)
           .getUser() as User;
@@ -201,22 +214,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
   }
 
   void onError(err) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          err.toString(),
-        ),
-      ),
-    );
+    AppSnackBar().snack(err.toString());
   }
 
   void onUniqueError(err) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          _CreditCardFormStr.errorDuplicateCard,
-        ),
-      ),
+    AppSnackBar().snack(
+      _CreditCardFormStr.errorDuplicateCard,
     );
   }
 

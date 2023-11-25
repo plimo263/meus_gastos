@@ -3,6 +3,7 @@ import 'package:meus_gastos/controller/provider/category_provider_controller.dar
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/screen/category/new_category_screen.dart';
 import 'package:meus_gastos/screen/category/update_category_screen.dart';
+import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/avatar_user_widget.dart';
 import 'package:meus_gastos/widgets/category_widget.dart';
 import 'package:meus_gastos/widgets/popup_menu_widget.dart';
@@ -34,12 +35,7 @@ class CategoryScreen extends StatelessWidget {
   // Funcao para editar categoria
   void onEdit(Category category, BuildContext context) {
     if (category.name == 'Outros') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(_CategoryScreenStr.errorNoPersmissionEdit),
-        ),
-      );
-
+      AppSnackBar().snack(_CategoryScreenStr.errorNoPersmissionEdit);
       return;
     }
     Navigator.of(context).pushNamed(
@@ -52,12 +48,7 @@ class CategoryScreen extends StatelessWidget {
   Future<bool?> onDelete(DismissDirection direction, Category category,
       BuildContext context) async {
     if (category.name == 'Outros') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(_CategoryScreenStr.errorNoPersmissionDelete),
-        ),
-      );
-
+      AppSnackBar().snack(_CategoryScreenStr.errorNoPersmissionDelete);
       return false;
     }
     return showDialog<bool>(
@@ -158,21 +149,17 @@ class _Incomes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        padding:
+            const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0, bottom: 72),
         children: incomes.map<Widget>((e) {
           return Dismissible(
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
             background: const _BackgroundDelete(),
-            child: Material(
-              child: InkWell(
-                onTap: () {
-                  onTap(e, context);
-                },
-                child: CategoryWidget(
-                  category: e,
-                ),
-              ),
+            child: CategoryWidget(
+              category: e,
+              onTap: () => onTap(e, context),
             ),
           );
         }).toList(),
@@ -207,21 +194,17 @@ class _Spedings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        padding:
+            const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0, bottom: 72),
         children: spendings.map<Widget>((e) {
           return Dismissible(
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
             background: const _BackgroundDelete(),
-            child: Material(
-              child: InkWell(
-                onTap: () {
-                  onTap(e, context);
-                },
-                child: CategoryWidget(
-                  category: e,
-                ),
-              ),
+            child: CategoryWidget(
+              category: e,
+              onTap: () => onTap(e, context),
             ),
           );
         }).toList(),
