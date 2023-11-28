@@ -7,18 +7,7 @@ import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/colors_selected_widget.dart';
 import 'package:meus_gastos/widgets/icons_selected_widget.dart';
 import 'package:provider/provider.dart';
-
-/// Campos do formulario para nova categoria.
-class _NewCategoryStr {
-  static const newIncome = 'Nova Receita';
-  static const newSpeding = 'Nova Despesa';
-  static const labelName = 'Nome da Categoria';
-  static const hintName = 'Nome da Categoria';
-  static const labelBtnSave = 'CRIAR CATEGORIA';
-  static const errorName = '* Mínimo de 2 caracteres';
-  static const errorIcon = '* Escolha o icone representante';
-  static const errorColor = '* Escolha uma das cores para o icone';
-}
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FormCategory extends StatefulWidget {
   final String type;
@@ -51,10 +40,11 @@ class _FormCategoryState extends State<FormCategory> {
   }
 
   String getType() {
+    final refStr = AppLocalizations.of(context);
     if (widget.type == 'income') {
-      return _NewCategoryStr.newIncome;
+      return refStr!.formCategoryNewIncome;
     }
-    return _NewCategoryStr.newSpeding;
+    return refStr!.formCategoryNewSpeding;
   }
 
   void onIconSelect(int iconSelected) {
@@ -70,9 +60,11 @@ class _FormCategoryState extends State<FormCategory> {
   }
 
   bool isNameInform() {
+    final refStr = AppLocalizations.of(context);
+
     if (_nameField.text.isEmpty || _nameField.text.length < 3) {
       setState(() {
-        _errorName = _NewCategoryStr.errorName;
+        _errorName = refStr!.formCategoryErrorName;
       });
       return false;
     } else {
@@ -84,9 +76,10 @@ class _FormCategoryState extends State<FormCategory> {
   }
 
   bool isIconSelect() {
+    final refStr = AppLocalizations.of(context);
     if (_icon == null) {
       AppSnackBar().snack(
-        _NewCategoryStr.errorIcon,
+        refStr!.formCategoryErrorIcon,
       );
       return false;
     }
@@ -94,9 +87,10 @@ class _FormCategoryState extends State<FormCategory> {
   }
 
   bool isColorSelect() {
+    final refStr = AppLocalizations.of(context);
     if (_color == null) {
       AppSnackBar().snack(
-        _NewCategoryStr.errorColor,
+        refStr!.formCategoryErrorColor,
       );
       return false;
     }
@@ -150,6 +144,8 @@ class _FormCategoryState extends State<FormCategory> {
 
   @override
   Widget build(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(getType()),
@@ -164,8 +160,8 @@ class _FormCategoryState extends State<FormCategory> {
               controller: _nameField,
               decoration: InputDecoration(
                 filled: true,
-                hintText: _NewCategoryStr.hintName,
-                labelText: _NewCategoryStr.labelName,
+                hintText: refStr!.formCategoryHintName,
+                labelText: refStr.formCategoryLabelName,
                 errorText: _errorName,
               ),
             ),
@@ -185,8 +181,8 @@ class _FormCategoryState extends State<FormCategory> {
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: onFormSave,
-                child: const Text(
-                  _NewCategoryStr.labelBtnSave,
+                child: Text(
+                  refStr.formCategoryLabelBtnSave,
                 ),
               ),
             ),

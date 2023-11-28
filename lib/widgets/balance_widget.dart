@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 
 class BalanceWidget extends StatelessWidget {
@@ -25,12 +26,26 @@ class BalanceWidget extends StatelessWidget {
     return UtilBrasilFields.obterReal(balance);
   }
 
+  TextStyle getFormatTextMoney() {
+    final textTheme = GoogleFonts.novaScript();
+    if (balance >= 0) {
+      return textTheme.copyWith(
+        color: Colors.green.shade800,
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+      );
+    }
+
+    return textTheme.copyWith(
+      color: Colors.red.shade900,
+      fontWeight: FontWeight.w700,
+      fontSize: 18,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final styleMoney = Theme.of(context).textTheme.titleLarge!.copyWith(
-          fontSize: 16,
-          color: Colors.black87,
-        );
+    final styleMoney = getFormatTextMoney();
     return ListTile(
       onTap: () {},
       leading: CircleAvatar(

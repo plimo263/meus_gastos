@@ -9,10 +9,7 @@ import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/utils/singleton/config_singleton.dart';
 import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 import 'package:provider/provider.dart';
-
-class _LoginScreenStr {
-  static const labelBtn = 'LOGAR COM O GOOGLE';
-}
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = 'login';
@@ -96,9 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         width: 24,
                       ),
-                      const Text(
-                        _LoginScreenStr.labelBtn,
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.loginLabelName,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.black87,
                           fontSize: 16,

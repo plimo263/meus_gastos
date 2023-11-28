@@ -3,6 +3,7 @@ import 'package:meus_gastos/screen/category/category_screen.dart';
 import 'package:meus_gastos/screen/credit_card/credit_card_screen.dart';
 import 'package:meus_gastos/screen/dashboard/dashboard_screen.dart';
 import 'package:meus_gastos/screen/my_speding/my_speding_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const _screens = <Widget>[
   MySpedingScreen(),
@@ -11,12 +12,6 @@ const _screens = <Widget>[
   DashboardScreen(),
 ];
 //
-final List<Map<String, dynamic>> _bottomItems = [
-  {'icon': Icons.wallet, 'name': 'Orçamento'},
-  {'icon': Icons.category, 'name': 'Categoria'},
-  {'icon': Icons.credit_card, 'name': 'Cartão'},
-  {'icon': Icons.bar_chart, 'name': 'Dashboard'},
-];
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home';
@@ -52,13 +47,23 @@ class BottomNavigatonCustom extends StatelessWidget {
   const BottomNavigatonCustom(
       {super.key, required this.currentIndex, required this.onTap});
 
+  List<Map<String, dynamic>> getBottomItems(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
+    return [
+      {'icon': Icons.wallet, 'name': refStr!.homeBudget},
+      {'icon': Icons.category, 'name': refStr.homeCategory},
+      {'icon': Icons.credit_card, 'name': refStr.homeCard},
+      {'icon': Icons.bar_chart, 'name': refStr.homeDashboard},
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       onTap: onTap,
       currentIndex: currentIndex,
-      items: _bottomItems.map<BottomNavigationBarItem>((e) {
+      items: getBottomItems(context).map<BottomNavigationBarItem>((e) {
         return BottomNavigationBarItem(
           icon: Icon(
             e['icon'] as IconData,

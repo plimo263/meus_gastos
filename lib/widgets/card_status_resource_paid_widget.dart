@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 import 'package:meus_gastos/model/speding_money.dart';
@@ -34,22 +36,41 @@ class CardStatusResourcePaidWidget extends StatelessWidget {
   }
 
   String getSumValues() {
+    String signal = '';
     double total = resourcePaid.fold(
       0.0,
       (previousValue, element) => previousValue + element.value,
     );
+
     if (total > 0 && resourcePaid is List<SpedingMoney>) {
-      total = total * -1;
+      signal = '-';
+    } else if (total > 0 && resourcePaid is List<FinancialIncome>) {
+      signal = '+';
     }
-    return UtilBrasilFields.obterReal(total);
+    //
+    return '$signal${UtilBrasilFields.obterReal(total)}';
+  }
+
+  TextStyle getFormatTextMoney() {
+    final textTheme = GoogleFonts.novaScript();
+    if (resourcePaid is List<FinancialIncome>) {
+      return textTheme.copyWith(
+        color: Colors.green.shade800,
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+      );
+    }
+
+    return textTheme.copyWith(
+      color: Colors.red.shade900,
+      fontWeight: FontWeight.w700,
+      fontSize: 18,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final styleMoney = Theme.of(context).textTheme.titleLarge!.copyWith(
-          fontSize: 16,
-          color: Colors.black87,
-        );
+    final styleMoney = getFormatTextMoney();
     return ListTile(
       onTap: () {},
       dense: true,
@@ -61,7 +82,7 @@ class CardStatusResourcePaidWidget extends StatelessWidget {
         ),
       ),
       title: Text(getType()),
-      trailing: Text(
+      trailing: AutoSizeText(
         getSumValues(),
         style: styleMoney,
       ),

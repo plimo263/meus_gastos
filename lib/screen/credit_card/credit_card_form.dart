@@ -4,40 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:meus_gastos/controller/provider/credit_card_provider_controller.dart';
 import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/databases/object_db/objectbox.g.dart';
-
 import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/palette_color_select_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgets/colors_selected_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef TypeValidator = String? Function(String? value);
 typedef TypeSaved = void Function(String? value);
-
-class _CreditCardFormStr {
-  static const labelBtnSave = 'SALVAR';
-  static const hintName = 'Nome do cartão';
-  static const labelName = 'Nome do cartão';
-  static const hintDayOfPayment = 'Dia Vencimento';
-  static const labelDayOfPayment = 'Dia Vencimento';
-  static const hintDayGoodBuy = 'Dia Fechamento';
-  static const labelDayGoodBuy = 'Dia Fechamento';
-  static const hintLimit = 'Limite';
-  static const labelLimit = 'Limite';
-  static const errorName = '* Nome do cartão requerido';
-  static const errorDayOfPaymentNotNumber = '* Precisa ser um número';
-  static const errorDayOfPayment = '* O dia de vencimento precisa se definido';
-  static const errorDayGoodBuyNotNumber = '* Precisa ser um número';
-  static const errorDayGoodBuy = '* O dia bom para compra precisa se definido';
-  static const errorDuplicateCard = 'Já existe cartão de crédito com este nome';
-  static const errorLimit = '* Defina o limite do cartão de crédito';
-  static const errorDayOutOfRange = '* Valor precisa ser entre 1 e 30';
-  static const errorDayGoodBuyGreatherDayPayment =
-      'Dia do fechamento maior que o dia do vencimento';
-}
 
 class _CreditCardFields {
   String? name;
@@ -46,11 +23,13 @@ class _CreditCardFields {
   double? limit;
   String? color;
 
+  BuildContext? context;
+
   String? validatorName(String? value) {
     if (value != null && value.isNotEmpty) {
       return null;
     }
-    return _CreditCardFormStr.errorName;
+    return AppLocalizations.of(context!)!.creditCardFormErrorName;
   }
 
   String? validatorDayOfPayment(String? value) {
@@ -60,13 +39,15 @@ class _CreditCardFields {
         if (valueDayOfPayment >= 1 && valueDayOfPayment <= 30) {
           return null;
         } else {
-          return _CreditCardFormStr.errorDayOutOfRange;
+          return AppLocalizations.of(context!)!
+              .creditCardFormErrorDayOutOfRange;
         }
       } else {
-        return _CreditCardFormStr.errorDayOfPaymentNotNumber;
+        return AppLocalizations.of(context!)!
+            .creditCardFormErrorDayOfPaymentNotNumber;
       }
     }
-    return _CreditCardFormStr.errorDayOfPayment;
+    return AppLocalizations.of(context!)!.creditCardFormErrorDayOfPayment;
   }
 
   String? validatorDayGoodBuy(String? value) {
@@ -76,20 +57,22 @@ class _CreditCardFields {
         if (valueDayGoodBuy >= 1 && valueDayGoodBuy <= 30) {
           return null;
         } else {
-          return _CreditCardFormStr.errorDayOutOfRange;
+          return AppLocalizations.of(context!)!
+              .creditCardFormErrorDayOutOfRange;
         }
       } else {
-        return _CreditCardFormStr.errorDayGoodBuyNotNumber;
+        return AppLocalizations.of(context!)!
+            .creditCardFormErrorDayGoodBuyNotNumber;
       }
     }
-    return _CreditCardFormStr.errorDayGoodBuy;
+    return AppLocalizations.of(context!)!.creditCardFormErrorDayGoodBuy;
   }
 
   String? validatorLimit(String? value) {
     if (value != null && value.isNotEmpty) {
       return null;
     }
-    return _CreditCardFormStr.errorLimit;
+    return AppLocalizations.of(context!)!.creditCardFormErrorLimit;
   }
 
   void saveName(String? value) {
@@ -146,6 +129,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
   @override
   void initState() {
     super.initState();
+    //
+    _creditCardFields.context = context;
+
+    //
     if (widget.creditCard != null) {
       _color = widget.creditCard!.color;
       _creditCardFields.dayOfPayment = widget.creditCard!.dayOfPayment;
@@ -164,7 +151,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
       if (dayGoodBuy > dayOfPayment) {
         AppSnackBar().snack(
-          _CreditCardFormStr.errorDayGoodBuyGreatherDayPayment,
+          AppLocalizations.of(context)!
+              .creditCardFormErrorDayGoodBuyGreatherDayPayment,
         );
         return;
       }
@@ -219,7 +207,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   void onUniqueError(err) {
     AppSnackBar().snack(
-      _CreditCardFormStr.errorDuplicateCard,
+      AppLocalizations.of(context)!.creditCardFormErrorDuplicateCard,
     );
   }
 
@@ -251,8 +239,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
       {
         'index': 0,
         'initialValue': _creditCardFields.name,
-        'hint': _CreditCardFormStr.hintName,
-        'text': _CreditCardFormStr.labelName,
+        'hint': AppLocalizations.of(context)!.creditCardFormHintName,
+        'text': AppLocalizations.of(context)!.creditCardFormLabelName,
         'formatField': <TextInputFormatter>[],
         'inputType': TextInputType.name,
         'validator': _creditCardFields.validatorName,
@@ -261,8 +249,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
       {
         'index': 1,
         'initialValue': _creditCardFields.dayOfPayment,
-        'hint': _CreditCardFormStr.hintDayOfPayment,
-        'text': _CreditCardFormStr.labelDayOfPayment,
+        'hint': AppLocalizations.of(context)!.creditCardFormHintDayOfPayment,
+        'text': AppLocalizations.of(context)!.creditCardFormLabelDayOfPayment,
         'formatField': <TextInputFormatter>[],
         'inputType': TextInputType.number,
         'validator': _creditCardFields.validatorDayOfPayment,
@@ -271,8 +259,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
       {
         'index': 2,
         'initialValue': _creditCardFields.dayGoodBuy,
-        'hint': _CreditCardFormStr.hintDayGoodBuy,
-        'text': _CreditCardFormStr.labelDayGoodBuy,
+        'hint': AppLocalizations.of(context)!.creditCardFormHintDayGoodBuy,
+        'text': AppLocalizations.of(context)!.creditCardFormLabelDayGoodBuy,
         'formatField': <TextInputFormatter>[],
         'inputType': TextInputType.number,
         'validator': _creditCardFields.validatorDayGoodBuy,
@@ -283,8 +271,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
         'initialValue': _creditCardFields.limit != null
             ? UtilBrasilFields.obterReal(_creditCardFields.limit!)
             : null,
-        'hint': _CreditCardFormStr.hintLimit,
-        'text': _CreditCardFormStr.labelLimit,
+        'hint': AppLocalizations.of(context)!.creditCardFormHintLimit,
+        'text': AppLocalizations.of(context)!.creditCardFormLabelLimit,
         'formatField': <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly,
           CentavosInputFormatter(moeda: true),
@@ -328,8 +316,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
             child: ElevatedButton.icon(
               onPressed: _onSave,
               icon: const Icon(Icons.save),
-              label: const Text(
-                _CreditCardFormStr.labelBtnSave,
+              label: Text(
+                AppLocalizations.of(context)!.creditCardFormLabelBtnSave,
               ),
             ),
           ),

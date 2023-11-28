@@ -6,17 +6,7 @@ import 'package:meus_gastos/widgets/avatar_user_widget.dart';
 import 'package:meus_gastos/widgets/credit_card_widget.dart';
 import 'package:meus_gastos/widgets/popup_menu_widget.dart';
 import 'package:provider/provider.dart';
-
-class _CreditCardStr {
-  static const title = 'Cartões';
-  static const titleDelete = 'Excluir Cartão';
-  static const bodyDelete1 = 'Deseja realmente ';
-  static const bodyDelete2 = 'excluir';
-  static const bodyDelete3 = ' ? Esta ação não pode ser desfeita';
-  static const labelBtnCancelDelete = 'CANCELAR';
-  static const labelBtnConfirmDelete = 'CONFIRMAR';
-  static const bodyBackCardDelete = 'EXCLUIR CARTÃO';
-}
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreditCardScreen extends StatefulWidget {
   const CreditCardScreen({super.key});
@@ -45,17 +35,19 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text(_CreditCardStr.titleDelete),
-              content: const Text.rich(
+              title: Text(
+                AppLocalizations.of(context)!.creditCardTitleDelete,
+              ),
+              content: Text.rich(
                 TextSpan(
-                  text: _CreditCardStr.bodyDelete1,
+                  text: AppLocalizations.of(context)!.creditCardBodyDelete1,
                   children: [
                     TextSpan(
-                      text: _CreditCardStr.bodyDelete2,
-                      style: TextStyle(color: Colors.red),
+                      text: AppLocalizations.of(context)!.creditCardBodyDelete2,
+                      style: const TextStyle(color: Colors.red),
                     ),
                     TextSpan(
-                      text: _CreditCardStr.bodyDelete3,
+                      text: AppLocalizations.of(context)!.creditCardBodyDelete3,
                     )
                   ],
                 ),
@@ -65,8 +57,9 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text(
-                    _CreditCardStr.labelBtnCancelDelete,
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .creditCardLabelBtnCancelDelete,
                   ),
                 ),
                 ElevatedButton(
@@ -76,8 +69,9 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                         .del(creditCard);
                     Navigator.pop(context, true);
                   },
-                  child: const Text(
-                    _CreditCardStr.labelBtnConfirmDelete,
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .creditCardLabelBtnConfirmDelete,
                   ),
                 ),
               ],
@@ -91,8 +85,8 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          _CreditCardStr.title,
+        title: Text(
+          AppLocalizations.of(context)!.creditCardTitle,
         ),
         actions: const [
           AvatarUserWidget(),
@@ -112,18 +106,19 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                   key: Key(creditCardList[index].id.toString()),
                   background: Card(
                     color: Colors.red.shade800,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.delete,
                             color: Colors.white,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
-                            _CreditCardStr.bodyBackCardDelete,
-                            style: TextStyle(
+                            AppLocalizations.of(context)!
+                                .creditCardBodyBackCardDelete,
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           )

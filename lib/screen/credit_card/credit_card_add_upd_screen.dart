@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/screen/credit_card/credit_card_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreditCardAddUpdScreen extends StatelessWidget {
   final CreditCard? creditCard;
@@ -10,11 +11,12 @@ class CreditCardAddUpdScreen extends StatelessWidget {
     this.creditCard,
   });
 
-  String getTitle() {
+  String getTitle(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
     if (creditCard != null) {
-      return 'Editar cartão';
+      return refStr!.creditCardAddUpdEdit;
     } else {
-      return 'Novo cartão';
+      return refStr!.creditCardAddUpdCreate;
     }
   }
 
@@ -22,7 +24,7 @@ class CreditCardAddUpdScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(getTitle()),
+        title: Text(getTitle(context)),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),

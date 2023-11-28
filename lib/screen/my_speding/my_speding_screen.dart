@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:meus_gastos/controller/provider/resource_paid_provider_controller.dart';
@@ -17,9 +18,6 @@ import 'package:meus_gastos/widgets/popup_menu_widget.dart';
 import 'package:meus_gastos/widgets/resource_paid_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class _MySpendingStr {}
 
 class MySpedingScreen extends StatefulWidget {
   const MySpedingScreen({super.key});
@@ -81,6 +79,9 @@ class _MySpedingScreenState extends State<MySpedingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final styleDateSection = GoogleFonts.orbit(
+      fontSize: 20,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.titleApp),
@@ -114,8 +115,13 @@ class _MySpedingScreenState extends State<MySpedingScreen> {
                     padding: const EdgeInsets.all(8),
                     elements: items,
                     groupBy: (element) => element.getDateRegister(),
-                    groupSeparatorBuilder: (String groupValue) =>
-                        Text(groupValue),
+                    groupSeparatorBuilder: (String groupValue) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: AutoSizeText(
+                            groupValue,
+                            style: styleDateSection,
+                          ),
+                        ),
                     itemBuilder: (context, ResourcePaid item) {
                       int id = 0;
                       if (item is FinancialIncome) {

@@ -23,8 +23,6 @@ typedef TypeDateTimeSaved = void Function(DateTime? value);
 typedef TypeCategoryValidator = String? Function(Category? value);
 typedef TypeCategorySaved = void Function(Category? value);
 
-class _IncomeFieldsStr {}
-
 class _IncomeFields {
   String? name;
   String description = '';
@@ -312,6 +310,7 @@ class _FormIncomeState extends State<FormIncome> {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: FormBuilderDateTimePicker(
+                  locale: const Locale('pt', 'BR'),
                   name: e['index'] as String,
                   initialValue: e['initialValue'] as DateTime,
                   firstDate: e['firstDate'] as DateTime,

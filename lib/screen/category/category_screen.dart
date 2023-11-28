@@ -9,34 +9,16 @@ import 'package:meus_gastos/widgets/background_delete_widget.dart';
 import 'package:meus_gastos/widgets/category_widget.dart';
 import 'package:meus_gastos/widgets/popup_menu_widget.dart';
 import 'package:provider/provider.dart';
-
-class _CategoryScreenStr {
-  static const title = 'Categoria';
-  static const titleTab1 = 'DESPESAS';
-  static const titleTab2 = 'RECEITAS';
-  static const errorNoPersmissionDelete =
-      'Esta categoria não pode ser excluída';
-  static const errorNoPersmissionEdit = 'Esta categoria não pode ser editada';
-  static const titleDelete = 'Excluir Categoria';
-  static const contentDelete =
-      'Deseja realmente excluir esta categoria ?\n\nEla não poderá ser recuperada e todas as despesas/receitas vinculadas com ela seram transferidas para a categoria OUTROS.';
-  static const labelBtnCancel = 'CANCELAR';
-  static const labelBtnConfirm = 'CONFIRMAR';
-  static const bodyBackCardDelete = 'EXCLUIR CATEGORIA';
-}
-
-const _typeCategories = [
-  {'text': _CategoryScreenStr.titleTab1, 'icon': Icons.trending_down},
-  {'text': _CategoryScreenStr.titleTab2, 'icon': Icons.trending_up}
-];
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
   // Funcao para editar categoria
   void onEdit(Category category, BuildContext context) {
+    final refStr = AppLocalizations.of(context);
     if (category.name == 'Outros') {
-      AppSnackBar().snack(_CategoryScreenStr.errorNoPersmissionEdit);
+      AppSnackBar().snack(refStr!.categoryErrorNoPersmissionEdit);
       return;
     }
     Navigator.of(context).pushNamed(
@@ -48,22 +30,23 @@ class CategoryScreen extends StatelessWidget {
   // Funcao para excluir categoria
   Future<bool?> onDelete(DismissDirection direction, Category category,
       BuildContext context) async {
+    final refStr = AppLocalizations.of(context);
     if (category.name == 'Outros') {
-      AppSnackBar().snack(_CategoryScreenStr.errorNoPersmissionDelete);
+      AppSnackBar().snack(refStr!.categoryErrorNoPersmissionDelete);
       return false;
     }
     return showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text(_CategoryScreenStr.titleDelete),
-            content: const Text(_CategoryScreenStr.contentDelete),
+            title: Text(refStr!.categoryTitleDelete),
+            content: Text(refStr.categoryContentDelete),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: const Text(_CategoryScreenStr.labelBtnCancel),
+                child: Text(refStr.categoryLabelBtnCancel),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -73,27 +56,38 @@ class CategoryScreen extends StatelessWidget {
 
                   Navigator.of(context).pop(true);
                 },
-                child: const Text(_CategoryScreenStr.labelBtnConfirm),
+                child: Text(refStr.categoryLabelBtnConfirm),
               ),
             ],
           );
         });
   }
 
+  List<Map<String, dynamic>> getTypeCategories(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
+    return [
+      {'text': refStr!.categoryTitleTab1, 'icon': Icons.trending_down},
+      {'text': refStr.categoryTitleTab2, 'icon': Icons.trending_up}
+    ];
+  }
+
   //
   @override
   Widget build(BuildContext context) {
+    final typeCategories = getTypeCategories(context);
+    final refStr = AppLocalizations.of(context);
+
     return DefaultTabController(
-      length: _typeCategories.length,
+      length: typeCategories.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(_CategoryScreenStr.title),
+          title: Text(refStr!.categoryTitle),
           actions: const [
             AvatarUserWidget(),
             PopupMenuWidget(),
           ],
           bottom: TabBar(
-              tabs: _typeCategories
+              tabs: typeCategories
                   .map<Tab>((e) => Tab(
                         text: e['text'] as String,
                         icon: Icon(e['icon'] as IconData),
@@ -147,6 +141,7 @@ class _Incomes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
     return Scaffold(
       body: ListView(
         padding:
@@ -156,8 +151,9 @@ class _Incomes extends StatelessWidget {
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
-            background: const BackgroundDeleteWidget(
-                text: _CategoryScreenStr.bodyBackCardDelete),
+            background: BackgroundDeleteWidget(
+              text: refStr!.categoryBodyBackCardDelete,
+            ),
             child: CategoryWidget(
               category: e,
               onTap: () => onTap(e, context),
@@ -192,6 +188,7 @@ class _Spedings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final refStr = AppLocalizations.of(context);
     return Scaffold(
       body: ListView(
         padding:
@@ -201,8 +198,9 @@ class _Spedings extends StatelessWidget {
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
-            background: const BackgroundDeleteWidget(
-                text: _CategoryScreenStr.bodyBackCardDelete),
+            background: BackgroundDeleteWidget(
+              text: refStr!.categoryBodyBackCardDelete,
+            ),
             child: CategoryWidget(
               category: e,
               onTap: () => onTap(e, context),
@@ -218,35 +216,6 @@ class _Spedings extends StatelessWidget {
           );
         },
         child: const Icon(Icons.trending_down),
-      ),
-    );
-  }
-}
-
-class _BackgroundDelete extends StatelessWidget {
-  const _BackgroundDelete();
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.red.shade800,
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          children: [
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-            SizedBox(width: 4),
-            Text(
-              _CategoryScreenStr.bodyBackCardDelete,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

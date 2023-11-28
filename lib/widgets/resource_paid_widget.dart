@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 import 'package:meus_gastos/model/speding_money.dart';
@@ -40,7 +42,7 @@ class ResourcePaidWidget extends StatelessWidget {
         HexColor(item.category.target!.color),
         item.category.target!.name,
         item.name,
-        item.getValueMonetary(),
+        '+${item.getValueMonetary()}',
         item.category.target!.icon,
         item.getTime(),
       );
@@ -50,7 +52,7 @@ class ResourcePaidWidget extends StatelessWidget {
         HexColor(item.category.target!.color),
         item.category.target!.name,
         item.name,
-        item.getValueMonetary(),
+        '-${item.getValueMonetary()}',
         item.category.target!.icon,
         item.getTime(),
       );
@@ -59,29 +61,51 @@ class ResourcePaidWidget extends StatelessWidget {
     return resource;
   }
 
+  TextStyle getFormatTextMoney() {
+    final textTheme = GoogleFonts.novaScript();
+    if (resourcePaid is FinancialIncome) {
+      return textTheme.copyWith(
+        color: Colors.green.shade800,
+        fontWeight: FontWeight.w700,
+      );
+    }
+
+    return textTheme.copyWith(
+      color: Colors.red.shade900,
+      fontWeight: FontWeight.w700,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final resource = getResourceRunTime();
 
-    return ListTile(
-      onTap: () => onTap(resourcePaid),
-      leading: CircleAvatar(
-        backgroundColor: resource.color,
-        child: Icon(IconData(resource.icon, fontFamily: 'MaterialIcons')),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(resource.title),
-          Text(resource.value),
-        ],
-      ),
-      subtitle: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(resource.nameRegister),
-          Text(resource.time),
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+      margin: EdgeInsets.zero,
+      child: ListTile(
+        onTap: () => onTap(resourcePaid),
+        leading: CircleAvatar(
+          backgroundColor: resource.color,
+          child: Icon(
+            IconData(resource.icon, fontFamily: 'MaterialIcons'),
+            color: Colors.white,
+          ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(resource.title),
+            AutoSizeText(resource.value, style: getFormatTextMoney()),
+          ],
+        ),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(resource.nameRegister),
+            Text(resource.time),
+          ],
+        ),
       ),
     );
   }
