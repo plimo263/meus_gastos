@@ -20,7 +20,7 @@ final List<Map<String, dynamic>> _bottomItems = [
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home';
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

@@ -25,10 +25,10 @@ class FormCategory extends StatefulWidget {
   final Category? category;
 
   const FormCategory({
-    Key? key,
+    super.key,
     required this.type,
     this.category,
-  }) : super(key: key);
+  });
 
   @override
   State<FormCategory> createState() => _FormCategoryState();

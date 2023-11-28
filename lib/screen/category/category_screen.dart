@@ -5,6 +5,7 @@ import 'package:meus_gastos/screen/category/new_category_screen.dart';
 import 'package:meus_gastos/screen/category/update_category_screen.dart';
 import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:meus_gastos/widgets/avatar_user_widget.dart';
+import 'package:meus_gastos/widgets/background_delete_widget.dart';
 import 'package:meus_gastos/widgets/category_widget.dart';
 import 'package:meus_gastos/widgets/popup_menu_widget.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ const _typeCategories = [
 ];
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  const CategoryScreen({super.key});
 
   // Funcao para editar categoria
   void onEdit(Category category, BuildContext context) {
@@ -139,11 +140,10 @@ class _Incomes extends StatelessWidget {
           DismissDirection direction, Category category, BuildContext context)
       onDelete;
   const _Incomes({
-    Key? key,
     required this.incomes,
     required this.onDelete,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,8 @@ class _Incomes extends StatelessWidget {
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
-            background: const _BackgroundDelete(),
+            background: const BackgroundDeleteWidget(
+                text: _CategoryScreenStr.bodyBackCardDelete),
             child: CategoryWidget(
               category: e,
               onTap: () => onTap(e, context),
@@ -184,11 +185,10 @@ class _Spedings extends StatelessWidget {
           DismissDirection direction, Category category, BuildContext context)
       onDelete;
   const _Spedings({
-    Key? key,
     required this.spendings,
     required this.onDelete,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +201,8 @@ class _Spedings extends StatelessWidget {
             key: Key(e.id.toString()),
             direction: DismissDirection.startToEnd,
             confirmDismiss: (direction) => onDelete(direction, e, context),
-            background: const _BackgroundDelete(),
+            background: const BackgroundDeleteWidget(
+                text: _CategoryScreenStr.bodyBackCardDelete),
             child: CategoryWidget(
               category: e,
               onTap: () => onTap(e, context),
@@ -223,16 +224,16 @@ class _Spedings extends StatelessWidget {
 }
 
 class _BackgroundDelete extends StatelessWidget {
-  const _BackgroundDelete({Key? key}) : super(key: key);
+  const _BackgroundDelete();
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.red.shade800,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
-          children: const [
+          children: [
             Icon(
               Icons.delete,
               color: Colors.white,

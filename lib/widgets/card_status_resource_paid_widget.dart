@@ -2,12 +2,12 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
+import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/themes/hexcolor.dart';
 
 class CardStatusResourcePaidWidget extends StatelessWidget {
   final List<ResourcePaid> resourcePaid;
-  const CardStatusResourcePaidWidget({Key? key, required this.resourcePaid})
-      : super(key: key);
+  const CardStatusResourcePaidWidget({super.key, required this.resourcePaid});
 
   IconData getIcon() {
     if (resourcePaid is List<FinancialIncome>) {
@@ -19,9 +19,9 @@ class CardStatusResourcePaidWidget extends StatelessWidget {
 
   Color getColor() {
     if (resourcePaid is List<FinancialIncome>) {
-      return HexColor('#81C784');
+      return HexColor('#2E7D32');
     } else {
-      return HexColor('#E57373');
+      return HexColor('#C62828');
     }
   }
 
@@ -34,40 +34,36 @@ class CardStatusResourcePaidWidget extends StatelessWidget {
   }
 
   String getSumValues() {
-    final total = resourcePaid.fold(
+    double total = resourcePaid.fold(
       0.0,
       (previousValue, element) => previousValue + element.value,
     );
+    if (total > 0 && resourcePaid is List<SpedingMoney>) {
+      total = total * -1;
+    }
     return UtilBrasilFields.obterReal(total);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Card(
-        margin: EdgeInsets.zero,
-        color: getColor(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                getIcon(),
-                color: Colors.black,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                '${getType()}: ${getSumValues()}',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              )
-            ],
-          ),
+    final styleMoney = Theme.of(context).textTheme.titleLarge!.copyWith(
+          fontSize: 16,
+          color: Colors.black87,
+        );
+    return ListTile(
+      onTap: () {},
+      dense: true,
+      leading: CircleAvatar(
+        backgroundColor: getColor(),
+        child: Icon(
+          getIcon(),
+          color: Colors.white,
         ),
+      ),
+      title: Text(getType()),
+      trailing: Text(
+        getSumValues(),
+        style: styleMoney,
       ),
     );
   }

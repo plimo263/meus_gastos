@@ -7,10 +7,10 @@ class UpdateCategoryScreen extends StatelessWidget {
   final Category category;
   final String type;
   const UpdateCategoryScreen({
-    Key? key,
+    super.key,
     required this.category,
     required this.type,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ class _CreditCardStr {
 }
 
 class CreditCardScreen extends StatefulWidget {
-  const CreditCardScreen({Key? key}) : super(key: key);
+  const CreditCardScreen({super.key});
 
   @override
   State<CreditCardScreen> createState() => _CreditCardScreenState();
@@ -112,10 +112,10 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                   key: Key(creditCardList[index].id.toString()),
                   background: Card(
                     color: Colors.red.shade800,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.delete,
                             color: Colors.white,

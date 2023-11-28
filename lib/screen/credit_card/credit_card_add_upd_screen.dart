@@ -6,9 +6,9 @@ class CreditCardAddUpdScreen extends StatelessWidget {
   final CreditCard? creditCard;
   static const routeName = 'add_credit_card';
   const CreditCardAddUpdScreen({
-    Key? key,
+    super.key,
     this.creditCard,
-  }) : super(key: key);
+  });
 
   String getTitle() {
     if (creditCard != null) {

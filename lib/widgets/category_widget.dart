@@ -5,8 +5,8 @@ import 'package:meus_gastos/themes/hexcolor.dart';
 class CategoryWidget extends StatelessWidget {
   final VoidCallback onTap;
   final Category category;
-  const CategoryWidget({Key? key, required this.category, required this.onTap})
-      : super(key: key);
+  const CategoryWidget(
+      {super.key, required this.category, required this.onTap});
 
   String getType() {
     if (category.type == 'income') {

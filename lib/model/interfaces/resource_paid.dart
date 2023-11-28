@@ -11,4 +11,7 @@ abstract class ResourcePaid {
 
   /// Retorna a data no formato dd/MM/YY
   String getDateRegister();
+
+  // Retorna a hora no formato HH:MM
+  String getTime();
 }

@@ -171,7 +171,7 @@ final Map<String, Map<String, List<int>>> allIcons = {
 };
 
 class PaletteIconsSelectWidget extends StatefulWidget {
-  const PaletteIconsSelectWidget({Key? key}) : super(key: key);
+  const PaletteIconsSelectWidget({super.key});
 
   @override
   State<PaletteIconsSelectWidget> createState() =>
@@ -269,11 +269,10 @@ class _PaletteIconPage extends StatelessWidget {
   final int? iconSelection;
   final void Function(int colorSelect) onTap;
   const _PaletteIconPage({
-    Key? key,
     required this.icons,
     required this.onTap,
     required this.iconSelection,
-  }) : super(key: key);
+  });
 
   Color getColorIcon() {
     return Colors.black87;

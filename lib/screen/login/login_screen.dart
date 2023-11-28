@@ -16,7 +16,7 @@ class _LoginScreenStr {
 
 class LoginScreen extends StatefulWidget {
   static const routeName = 'login';
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

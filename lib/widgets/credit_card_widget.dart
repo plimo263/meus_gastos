@@ -12,10 +12,10 @@ class CreditCardWidget extends StatelessWidget {
   final CreditCard creditCard;
   final VoidCallback? onEdit;
   const CreditCardWidget({
-    Key? key,
+    super.key,
     required this.creditCard,
     this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +45,11 @@ class CreditCardWidget extends StatelessWidget {
 
 class _Title extends StatelessWidget {
   final CreditCard creditCard;
-  const _Title({Key? key, required this.creditCard}) : super(key: key);
+  const _Title({required this.creditCard});
 
   @override
   Widget build(BuildContext context) {
-    final moneyStyle = Theme.of(context).textTheme.headline6!.copyWith(
+    final moneyStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.w600,
         );
@@ -69,14 +69,14 @@ class _Title extends StatelessWidget {
 
 class _Subtitle extends StatelessWidget {
   final CreditCard creditCard;
-  const _Subtitle({Key? key, required this.creditCard}) : super(key: key);
+  const _Subtitle({required this.creditCard});
 
   @override
   Widget build(BuildContext context) {
-    final stylelabel = Theme.of(context).textTheme.bodyText2!.copyWith(
+    final stylelabel = Theme.of(context).textTheme.bodyMedium!.copyWith(
           color: Colors.black87,
         );
-    final styleValue = Theme.of(context).textTheme.headline6!.copyWith(
+    final styleValue = Theme.of(context).textTheme.titleLarge!.copyWith(
           color: Colors.blue.shade500,
           fontWeight: FontWeight.w600,
         );

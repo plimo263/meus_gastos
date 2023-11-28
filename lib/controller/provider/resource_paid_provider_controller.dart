@@ -6,7 +6,6 @@ import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/repository/income_repository.dart';
 import 'package:meus_gastos/repository/speding_repository.dart';
-import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 
 class ResourcePaidProviderController extends ChangeNotifier
     implements ResourcePaidController {

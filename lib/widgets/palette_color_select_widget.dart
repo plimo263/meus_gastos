@@ -220,7 +220,7 @@ final colorsMap = {
 };
 
 class PaletteColorSelectWidget extends StatefulWidget {
-  const PaletteColorSelectWidget({Key? key}) : super(key: key);
+  const PaletteColorSelectWidget({super.key});
 
   @override
   State<PaletteColorSelectWidget> createState() =>
@@ -318,11 +318,10 @@ class _PaletteColorPage extends StatelessWidget {
   final String? colorSelection;
   final void Function(String colorSelect) onTap;
   const _PaletteColorPage({
-    Key? key,
     required this.colors,
     required this.onTap,
     required this.colorSelection,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

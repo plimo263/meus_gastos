@@ -7,6 +7,7 @@ import 'package:meus_gastos/themes/colors.dart';
 final _colors = ColorsApp();
 
 final themeLight = ThemeData(
+  useMaterial3: false,
   brightness: Brightness.light,
   primaryColor: _colors.primary,
   colorScheme: ColorScheme.fromSeed(

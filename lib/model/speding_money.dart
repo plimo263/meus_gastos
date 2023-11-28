@@ -18,6 +18,7 @@ class SpedingMoney implements ResourcePaid, Balance {
   int id = 0;
 
   String name;
+  @override
   double value;
 
   @override
@@ -84,4 +85,9 @@ class SpedingMoney implements ResourcePaid, Balance {
   @override
   bool operator ==(Object? other) =>
       other is SpedingMoney && other.name == name;
+
+  @override
+  String getTime() {
+    return DateFormat('HH:mm').format(dateRegister);
+  }
 }

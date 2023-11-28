@@ -8,7 +8,7 @@ import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 import 'package:provider/provider.dart';
 
 class PopupMenuWidget extends StatelessWidget {
-  const PopupMenuWidget({Key? key}) : super(key: key);
+  const PopupMenuWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,11 @@ class PopupMenuWidget extends StatelessWidget {
         },
         icon: const Icon(Icons.more_vert),
         itemBuilder: (context) {
-          return [
+          return const [
             PopupMenuItem(
               value: 1,
               child: Row(
-                children: const [
+                children: [
                   Icon(
                     Icons.logout,
                     color: Colors.black,

@@ -8,10 +8,10 @@ class ColorsSelectedWidget extends StatefulWidget {
   final void Function(String color) onColorSelect;
   final String? colorSelected;
   const ColorsSelectedWidget({
-    Key? key,
+    super.key,
     required this.colorSelected,
     required this.onColorSelect,
-  }) : super(key: key);
+  });
 
   @override
   State<ColorsSelectedWidget> createState() => _ColorsSelectedWidgetState();
@@ -109,7 +109,7 @@ class _ColorsSelectedWidgetState extends State<ColorsSelectedWidget> {
                   children: childrens,
                 ),
               );
-            }).toList(),
+            }),
             Tooltip(
               message: 'Mais cores',
               child: OutlinedButton(

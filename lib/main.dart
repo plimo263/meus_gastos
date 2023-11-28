@@ -15,6 +15,8 @@ import 'package:meus_gastos/screen/routes.dart';
 import 'package:meus_gastos/screen/splash/splash_screen.dart';
 import 'package:meus_gastos/themes/theme_default.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -76,6 +78,15 @@ class MyApp extends StatelessWidget {
         initialRoute: SplashScreen.routeName,
         routes: routes,
         onGenerateRoute: onGenerateRoute,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('pt', 'BR'), // English
+        ],
       ),
     );
   }

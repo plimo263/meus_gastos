@@ -130,9 +130,9 @@ class _CreditCardFields {
 class CreditCardForm extends StatefulWidget {
   final CreditCard? creditCard;
   const CreditCardForm({
-    Key? key,
+    super.key,
     this.creditCard,
-  }) : super(key: key);
+  });
 
   @override
   State<CreditCardForm> createState() => _CreditCardFormState();
@@ -317,7 +317,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 ),
               ),
             );
-          }).toList(),
+          }),
           ColorsSelectedWidget(
             colorSelected: _color,
             onColorSelect: onColorSelected,

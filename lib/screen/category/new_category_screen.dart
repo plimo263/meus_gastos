@@ -4,7 +4,7 @@ import 'package:meus_gastos/screen/category/form_category.dart';
 class NewCategoryScreen extends StatelessWidget {
   static const routeName = 'new_category';
   final String type;
-  const NewCategoryScreen({Key? key, required this.type}) : super(key: key);
+  const NewCategoryScreen({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {

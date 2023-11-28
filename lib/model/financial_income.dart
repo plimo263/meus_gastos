@@ -16,6 +16,7 @@ class FinancialIncome implements ResourcePaid {
   int id = 0;
 
   String name;
+  @override
   double value;
 
   @override
@@ -51,4 +52,9 @@ class FinancialIncome implements ResourcePaid {
   @override
   bool operator ==(Object? other) =>
       other is FinancialIncome && other.name == name;
+
+  @override
+  String getTime() {
+    return DateFormat('HH:mm').format(dateRegister);
+  }
 }

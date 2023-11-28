@@ -4,7 +4,7 @@ import 'package:meus_gastos/utils/singleton/login_singleton.dart';
 import 'package:provider/provider.dart';
 
 class AvatarUserWidget extends StatelessWidget {
-  const AvatarUserWidget({Key? key}) : super(key: key);
+  const AvatarUserWidget({super.key});
 
   bool isUserAuth() {
     if (LoginSingleton().user != null) {

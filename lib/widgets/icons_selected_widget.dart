@@ -7,11 +7,11 @@ class IconsSelectedWidget extends StatefulWidget {
   final Color Function() getColorSelected;
   final int? iconSelected;
   const IconsSelectedWidget({
-    Key? key,
+    super.key,
     required this.iconSelected,
     required this.onIconSelected,
     required this.getColorSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<IconsSelectedWidget> createState() => _IconsSelectedWidgetState();
@@ -92,7 +92,7 @@ class _IconsSelectedWidgetState extends State<IconsSelectedWidget> {
                 ),
               ),
             );
-          }).toList(),
+          }),
           Tooltip(
             message: 'Mais icones',
             child: OutlinedButton(
