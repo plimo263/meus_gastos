@@ -8,6 +8,7 @@ import 'package:meus_gastos/model/financial_income.dart';
 import 'package:meus_gastos/model/interfaces/resource_paid.dart';
 import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/screen/my_speding/income_screen.dart';
+import 'package:meus_gastos/screen/my_speding/spending_screen.dart';
 import 'package:meus_gastos/widgets/avatar_user_widget.dart';
 import 'package:meus_gastos/widgets/background_delete_widget.dart';
 import 'package:meus_gastos/widgets/balance_widget.dart';
@@ -29,6 +30,10 @@ class MySpedingScreen extends StatefulWidget {
 class _MySpedingScreenState extends State<MySpedingScreen> {
   void _onAddIncome() {
     Navigator.of(context).pushNamed(IncomeScreen.routename);
+  }
+
+  void _onAddSpeding() {
+    Navigator.of(context).pushNamed(SpendingScreen.routename);
   }
 
   // Edita o valor de um recurso, seja de entrada ou de saida
@@ -160,7 +165,7 @@ class _MySpedingScreenState extends State<MySpedingScreen> {
             Icons.trending_down,
           ),
           label: AppLocalizations.of(context)!.mySpendingScreenLabelBtnSpending,
-          onPressed: () {},
+          onPressed: _onAddSpeding,
         ),
       ]),
     );

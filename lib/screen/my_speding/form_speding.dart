@@ -7,10 +7,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:meus_gastos/controller/provider/category_provider_controller.dart';
+import 'package:meus_gastos/controller/provider/credit_card_provider_controller.dart';
 import 'package:meus_gastos/controller/provider/resource_paid_provider_controller.dart';
 import 'package:meus_gastos/controller/provider/user_provider_controller.dart';
 import 'package:meus_gastos/model/category.dart';
-import 'package:meus_gastos/model/financial_income.dart';
+import 'package:meus_gastos/model/credit_card.dart';
+import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/model/user.dart';
 import 'package:meus_gastos/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +24,17 @@ typedef TypeDateTimeValidator = String? Function(DateTime? value);
 typedef TypeDateTimeSaved = void Function(DateTime? value);
 typedef TypeCategoryValidator = String? Function(Category? value);
 typedef TypeCategorySaved = void Function(Category? value);
+typedef TypeCreditCardValidator = String? Function(CreditCard? value);
+typedef TypeCreditCardSaved = void Function(CreditCard? value);
 
-class _IncomeFields {
+class _SpedingFields {
   String? name;
   String description = '';
   DateTime? dateRegister;
   double? price;
   Category? category;
+  int quantityParcel = 0;
+  CreditCard? creditCard;
 
   BuildContext? ctx;
 
@@ -95,6 +101,31 @@ class _IncomeFields {
     category = categoryValue;
   }
 
+  String? validatorCreditCard(CreditCard? value) {
+    if (value != null) {
+      return null;
+    }
+    return AppLocalizations.of(ctx!)!.formSpendingErrorCreditCard;
+  }
+
+  void saveCreditCard(CreditCard? inCreditCard) {
+    creditCard = inCreditCard;
+  }
+
+  String? validatorParcel(String? value) {
+    if (value != null) {
+      int? vl = int.tryParse(value);
+      if (vl != null && vl > 0) {
+        return null;
+      }
+    }
+    return AppLocalizations.of(ctx!)!.formSpendingErrorNumberParcel;
+  }
+
+  void saveParcel(String? inNumber) {
+    quantityParcel = int.tryParse(inNumber!) ?? 0;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'category': category,
@@ -102,24 +133,28 @@ class _IncomeFields {
       'description': description,
       'name': name,
       'date_register': dateRegister,
+      'quantityParcel': quantityParcel,
+      'credit_card': creditCard,
     };
   }
 }
 
-class FormIncome extends StatefulWidget {
-  final FinancialIncome? income;
-  const FormIncome({
+class FormSpeding extends StatefulWidget {
+  final SpedingMoney? speding;
+  const FormSpeding({
     super.key,
-    this.income,
+    this.speding,
   });
 
   @override
-  State<FormIncome> createState() => _FormIncomeState();
+  State<FormSpeding> createState() => _FormSpedingState();
 }
 
-class _FormIncomeState extends State<FormIncome> {
+class _FormSpedingState extends State<FormSpeding> {
   List<Category> _categories = [];
-  final _formField = _IncomeFields();
+  List<CreditCard> _creditCards = [];
+  bool isUsedCreditCard = false;
+  final _formField = _SpedingFields();
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -128,20 +163,32 @@ class _FormIncomeState extends State<FormIncome> {
 
     _formField.ctx = context;
 
-    if (widget.income != null) {
-      _formField.category = widget.income!.category.target;
-      _formField.name = widget.income!.name;
-      _formField.description = widget.income!.description;
-      _formField.price = widget.income!.value;
-      _formField.dateRegister = widget.income!.dateRegister;
+    if (widget.speding != null) {
+      _formField.category = widget.speding!.category.target;
+      _formField.name = widget.speding!.name;
+      _formField.description = widget.speding!.description;
+      _formField.price = widget.speding!.value;
+      _formField.dateRegister = widget.speding!.dateRegister;
+      _formField.creditCard = widget.speding!.creditCard.target;
+
       setState(() {});
     }
+    // Recupera as categorias
     Future.microtask(() {
-      final incomes = Provider.of<CategoryProviderController>(
+      final spedings = Provider.of<CategoryProviderController>(
         context,
         listen: false,
-      ).getAll().where((element) => element.type == 'income').toList();
-      _categories = incomes;
+      ).getAll().where((element) => element.type == 'speding').toList();
+      _categories = spedings;
+      setState(() {});
+    });
+    // Recupera os cartoes de credito
+    Future.microtask(() {
+      final credits = Provider.of<CreditCardProviderController>(
+        context,
+        listen: false,
+      ).getAll();
+      _creditCards = credits;
       setState(() {});
     });
   }
@@ -233,6 +280,51 @@ class _FormIncomeState extends State<FormIncome> {
           filled: true,
         ),
       },
+      {
+        'index': '5',
+        'initialValue': isUsedCreditCard,
+        'title': Text(
+          AppLocalizations.of(context)!.formSpendingLabelIsCreditCard,
+        ),
+        'decoration': const InputDecoration(
+          filled: true,
+        ),
+      }
+    ];
+  }
+
+  // A quantidade de parcelas do cartão de crédito
+  List<Map<String, dynamic>> getNumberParcel() {
+    return [
+      {
+        'index': '6',
+        'initialValue': _formField.creditCard,
+        'validator': _formField.validatorCreditCard,
+        'onSaved': _formField.saveCreditCard,
+        'keyBoardType': null,
+        'inputFormatters': null,
+        'decoration': InputDecoration(
+          hintText: AppLocalizations.of(context)!.formSpendingHintCreditCard,
+          labelText: AppLocalizations.of(context)!.formSpendingLabelCreditCard,
+          filled: true,
+        ),
+      },
+      {
+        'index': '7',
+        'initialValue': _formField.quantityParcel,
+        'validator': _formField.validatorParcel,
+        'onSaved': _formField.saveParcel,
+        'keyBoardType': TextInputType.number,
+        'inputFormatters': [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        'decoration': InputDecoration(
+          hintText: AppLocalizations.of(context)!.formSpendingHintNumberParcel,
+          labelText:
+              AppLocalizations.of(context)!.formSpendingLabelNumberParcel,
+          filled: true,
+        ),
+      }
     ];
   }
 
@@ -243,41 +335,46 @@ class _FormIncomeState extends State<FormIncome> {
     //
     if (_formKey.currentState!.saveAndValidate()) {
       final values = _formField.toMap();
+
       //
       var providerRef =
           Provider.of<ResourcePaidProviderController>(context, listen: false);
 
-      FinancialIncome? incomeRegister;
-      // Atualiznado o registro
-      if (widget.income != null) {
-        widget.income!.name = values['name'];
-        widget.income!.value = values['price'];
-        widget.income!.dateRegister = values['date_register'];
-        widget.income!.description = values['description'];
-        widget.income!.category.target = values['category'] as Category;
+      SpedingMoney? spedingRegister;
+      // Atualizando o registro
+      if (widget.speding != null) {
+        widget.speding!.name = values['name'];
+        widget.speding!.value = values['price'];
+        widget.speding!.dateRegister = values['date_register'];
+        widget.speding!.description = values['description'];
+        widget.speding!.category.target = values['category'] as Category;
 
-        incomeRegister = widget.income as FinancialIncome;
+        spedingRegister = widget.speding as SpedingMoney;
 
-        providerRef.update(incomeRegister).then((_) {
+        providerRef.update(spedingRegister).then((_) {
           Navigator.of(context).pop();
         }).catchError(onError);
       } else {
         // Criando um novo registro
-        incomeRegister = FinancialIncome(
+        spedingRegister = SpedingMoney(
           name: values['name'],
           value: values['price'],
           dateRegister: values['date_register'] as DateTime,
           description: values['description'],
         );
-        incomeRegister.category.target = values['category'] as Category;
-        incomeRegister.user.target = user;
+        spedingRegister.category.target = values['category'] as Category;
+        spedingRegister.user.target = user;
+        // Veja se tem cartao de credito
+        if (isUsedCreditCard) {
+          // TODO Montar lógica para o parcelamento com o cartão de crédito
+        }
 
-        providerRef.add(incomeRegister).then((_) {
+        providerRef.add(spedingRegister).then((_) {
           Navigator.of(context).pop();
         }).catchError(onError);
       }
-      //
     }
+    //
   }
 
   //
@@ -299,6 +396,9 @@ class _FormIncomeState extends State<FormIncome> {
   @override
   Widget build(BuildContext context) {
     final formFields = getFields();
+    if (isUsedCreditCard) {
+      formFields.addAll(getNumberParcel());
+    }
 
     return FormBuilder(
       key: _formKey,
@@ -307,6 +407,7 @@ class _FormIncomeState extends State<FormIncome> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ...formFields.map((e) {
+            // Escolha de data/hora
             if (e['index'] == '2') {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -328,6 +429,7 @@ class _FormIncomeState extends State<FormIncome> {
                 ),
               );
             } else if (e['index'] == '4') {
+              // Escolha de categorias
               final items = _categories
                   .map<DropdownMenuItem<Category>>(
                     (e) => DropdownMenuItem<Category>(
@@ -347,13 +449,55 @@ class _FormIncomeState extends State<FormIncome> {
                 decoration: e['decoration'] as InputDecoration,
                 style: e.containsKey('style') ? e['style'] as TextStyle : null,
               );
+            } else if (e['index'] == '5') {
+              // Define se vai utilizar o cartao de credito
+              return FormBuilderSwitch(
+                name: e['index'] as String,
+                initialValue: e['initialValue'] as bool,
+                title: e['title'] as Widget,
+                decoration: e['decoration'] as InputDecoration,
+                onChanged: (bool? useCard) {
+                  if (useCard != null && useCard) {
+                    if (_creditCards.isEmpty) {
+                      AppSnackBar().snack(AppLocalizations.of(context)!
+                          .formSpendingErrorNoCreditCard);
+                      return;
+                    }
+                  }
+                  setState(() {
+                    isUsedCreditCard = useCard ?? false;
+                  });
+                },
+              );
+            } else if (e['index'] == '6') {
+              // Escolha de cartao de credito
+              final items = _creditCards
+                  .map<DropdownMenuItem<CreditCard>>(
+                    (e) => DropdownMenuItem<CreditCard>(
+                      value: e,
+                      child: Text(e.name),
+                    ),
+                  )
+                  .toList();
+
+              return FormBuilderDropdown<CreditCard>(
+                name: e['index'] as String,
+                items: items,
+                initialValue:
+                    e.containsKey('initialValue') ? e['initialValue'] : null,
+                validator: e['validator'] as TypeCreditCardValidator,
+                onSaved: e['onSaved'] as TypeCreditCardSaved,
+                decoration: e['decoration'] as InputDecoration,
+                style: e.containsKey('style') ? e['style'] as TextStyle : null,
+              );
             }
-            //
+
+            // Os demais campos (nome, descricao, valor monetario, etc...)
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: FormBuilderTextField(
                 name: e['index'] as String,
-                initialValue: e['initialValue'] as String,
+                initialValue: e['initialValue'].toString(),
                 validator: e['validator'] as TypeValidator,
                 onSaved: e['onSaved'] as TypeSaved,
                 keyboardType: e['keyBoardType'] as TextInputType,

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:meus_gastos/model/category.dart';
 import 'package:meus_gastos/model/credit_card.dart';
 import 'package:meus_gastos/model/financial_income.dart';
+import 'package:meus_gastos/model/speding_money.dart';
 import 'package:meus_gastos/screen/category/new_category_screen.dart';
 import 'package:meus_gastos/screen/category/update_category_screen.dart';
 import 'package:meus_gastos/screen/credit_card/credit_card_add_upd_screen.dart';
 import 'package:meus_gastos/screen/home/home_screen.dart';
 import 'package:meus_gastos/screen/login/login_screen.dart';
 import 'package:meus_gastos/screen/my_speding/income_screen.dart';
+import 'package:meus_gastos/screen/my_speding/spending_screen.dart';
 import 'package:meus_gastos/screen/splash/splash_screen.dart';
 
 final Map<String, Widget Function(BuildContext context)> routes = {
@@ -43,12 +45,19 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           creditCard: creditCard,
         ),
       );
-    case IncomeScreen.routename:
+    case IncomeScreen.routename: // Nova receita
       FinancialIncome? income;
       if (settings.arguments != null) {
         income = settings.arguments as FinancialIncome;
       }
       return MaterialPageRoute(builder: (ctx) => IncomeScreen(income: income));
+    case SpendingScreen.routename: // Nova despesa
+      SpedingMoney? speding;
+      if (settings.arguments != null) {
+        speding = settings.arguments as SpedingMoney;
+      }
+      return MaterialPageRoute(
+          builder: (ctx) => SpendingScreen(speding: speding));
     default:
       break;
   }

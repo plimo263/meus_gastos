@@ -23,7 +23,13 @@ class BalanceWidget extends StatelessWidget {
   }
 
   String getValueFormat() {
-    return UtilBrasilFields.obterReal(balance);
+    double value = balance;
+    String signal = '+';
+    if (value < 0) {
+      value *= -1;
+      signal = '-';
+    }
+    return '$signal${UtilBrasilFields.obterReal(value)}';
   }
 
   TextStyle getFormatTextMoney() {

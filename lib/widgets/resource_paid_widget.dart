@@ -52,7 +52,7 @@ class ResourcePaidWidget extends StatelessWidget {
         HexColor(item.category.target!.color),
         item.category.target!.name,
         item.name,
-        '-${item.getValueMonetary()}',
+        item.getValueMonetary(),
         item.category.target!.icon,
         item.getTime(),
       );
